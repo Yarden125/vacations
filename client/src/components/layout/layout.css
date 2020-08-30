@@ -1,0 +1,88 @@
+/* layout design */
+.layout{
+    height:100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: auto;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 22% 80% ;
+    grid-template-columns: repeat(12, 1fr);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-image: url("/assets/images/105.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+}
+
+/* different row divition from screen size of 768px to 991px */
+@media screen and (min-width: 768px) {
+    .layout {
+        grid-template-rows: 15% 85%;
+    }
+}
+
+/* different row divition from screen size of 992px */
+@media screen and (min-width: 992px) {
+    .layout {
+        grid-template-rows: 20% 80%;
+    }
+}
+
+/* header divition design */
+.layout > header{
+    grid-column: span 12;
+}
+
+/* main divition design */
+.layout > main{
+    grid-column: span 12;
+    
+}
+
+/* logout-wrapper div design */
+.layout .logout-wrapper{
+    position: relative;
+}
+
+/* Scrollbar desgin for the website*/
+.layout::-webkit-scrollbar {
+    width: 10px;
+    margin-right: 2px;
+}
+
+/*Scrollbar track desgin for the website*/
+.layout::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/*Scrollbar handle design for the website*/
+.layout::-webkit-scrollbar-thumb {
+    background: rgb(77, 113, 124);
+    border-radius: 3px;
+    height:20px;
+}
+  
+/*Scrollbar handle when hovering over design for the website*/
+.layout::-webkit-scrollbar-thumb:hover {
+    background: rgb(77, 113, 124);
+    border-radius: 3px;
+    height:20px;
+}
+
+/* different design for Scrollbar for the website when screen size is lower than 768px */
+@media screen and (max-width: 767px) {
+    /* scrollbar design */
+    .layout::-webkit-scrollbar-track {
+        background: #f1f1f144;
+    }
+
+    /*Scrollbar handle design */
+    .layout::-webkit-scrollbar-thumb {
+    background: rgb(120, 177, 194);
+    border-radius: 3px;
+    height:20px;
+    }
+}

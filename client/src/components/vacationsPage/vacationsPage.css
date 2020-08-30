@@ -1,0 +1,187 @@
+/* vacations div position design */
+.vacations-page{
+    position: relative;
+}
+
+/* vacation container top design */
+.vacations-page .vacation-container-top{
+    display: inline-block;
+    position: relative;
+}
+
+/* vacation container design */
+.vacations-page .vacations-container{
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px white;
+    display: inline-block;
+    width:290px;
+    margin:10px 7px;
+    background-color: rgba(104, 104, 104, 0.192);  
+}
+
+/* Vacation image design */
+.vacations-page .vacation-image{
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 270px;
+    height:180px;
+    box-shadow: 3px 3px 7px lightgray;
+    border-radius: 3px;
+    border:1px solid white;
+}
+
+/* follow/unfollow checkbox original desgin hidden */
+.vacations-page .follow-input, .vacations-page .unfollow-input{
+    position: relative;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* follow star design */
+.vacations-page .yellow-star{
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    background-image: url("/assets/icons/yellowStar.png");
+    background-size: auto 100%;
+    width: 33px;
+    height: 33px;
+    background-repeat: no-repeat;
+    margin:5px;
+}
+
+/* follow star design when hovering over it */
+.vacations-page .yellow-star:hover{
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    background-image: url("/assets/icons/yellowStar.png");
+    background-size: auto 100%;
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    margin:5px;
+}
+
+/* Unfollow star design  */
+.vacations-page .empty-star{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    background-image: url("/assets/icons/emptyStar.png");
+    background-size: auto 100%;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    margin:5px;
+    filter: brightness(400%);
+}
+
+/* Unfollow star design when hovering over it  */
+.vacations-page .empty-star:hover{
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    background-image: url("/assets/icons/emptyStar.png");
+    background-size: auto 100%;
+    width: 33px;
+    height: 33px;
+    background-repeat: no-repeat;
+    margin:5px;
+    filter: brightness(400%);
+}
+
+/* vacation destination design */
+.vacations-page .v-destination-p{
+    margin:0;
+    padding: 0;
+    text-align: center;
+    font-size: 50px;
+    display: inline-block;
+    color: white;
+    font-family: "vacations-destination-title";
+}
+
+/* customized font for vacation destination */
+@font-face{
+    src: url("/assets/fonts/PeachesForBreakfast-Regular.ttf");
+    font-family: "vacations-destination-title";
+}
+
+/* vacation description div design */
+.vacations-page .v-description{
+    height: 120px;
+}
+
+/* vacation price and dates design */
+.vacations-page .vacation-details-class{
+    padding:0;
+    margin:0;
+    margin-bottom: 5px;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(37, 10, 35);
+    text-shadow: -1px -1px 2px rgb(37, 10, 35);  
+}
+
+/* vacation description design */
+.vacations-page .vacation-details-class-description{
+    height:46px;
+    overflow: auto;
+    padding:0;
+    margin:0;
+    margin-bottom: 5px;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(37, 10, 35);
+    text-shadow: -1px -1px 2px rgb(37, 10, 35);  
+}
+
+/* Scrollbar desgin for the description paragraph in the vacation card*/
+.vacation-details-class-description::-webkit-scrollbar {
+    width: 5px;
+    margin-right: 2px;
+  }
+  
+ /*Scrollbar track desgin for the description paragraph in the vacation card*/
+  .vacation-details-class-description::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+ /*Scrollbar handle desgin for the description paragraph in the vacation card*/
+  .vacation-details-class-description::-webkit-scrollbar-thumb {
+    background: rgb(77, 113, 124);
+    border-radius: 2px;
+  }
+  
+  /*Scrollbar handle desgin for the description paragraph in the vacation card when hovering over it*/
+  .vacation-details-class-description::-webkit-scrollbar-thumb:hover {
+    background: rgb(77, 113, 124);
+    border-radius: 2px;
+  }
+
+/* Hello User title design */
+.welcome-user{
+    color: white;
+    font-size: 30px;
+    margin-top: 7px;
+    margin-bottom: 0px;
+    font-family:"welcome-admin-title" ;
+}
+
+/* customized font for welcome-admin */
+@font-face{
+    src: url("/assets/fonts/Sunday\ Holiday.ttf");
+    font-family: "welcome-admin-title";
+}
+
+/* different design for welcome-user when screen size is under 768px */
+@media screen and (max-width: 767px) {
+    .welcome-user {
+        font-size: 25px;
+        margin-top: 7px;
+        margin-bottom: 0px;
+    }
+}

@@ -1,0 +1,121 @@
+/* update vacation container to div design */
+.update-vacation .update-vacation-container-top{
+    margin:auto;
+    text-align: center;
+}
+
+/* td and tr design */
+.update-vacation td,.update-vacation tr{
+    text-align: center;
+    margin: auto ;
+    margin-top: 10px;
+    padding: 3px;
+}
+
+/* table design */
+.update-vacation table{
+    text-align: center;
+    margin: auto ;
+    margin-top: 0px;
+    padding: 3px;
+}
+
+/* input box design */
+.update-vacation .input-update-vacation{
+    width: 210px;
+    height: 27px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px rgb(119, 31, 82);
+    margin-top: 5px;
+}
+
+/* texteara box design */
+.update-vacation .textarea-update-vacation{
+    width: 210px;
+    height: 35px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px rgb(119, 31, 82);
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+/* Update-Button design when enabled: */
+.update-vacation .update-button:enabled{
+    width: 120px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(0, 204, 255), rgb(119, 255, 180),rgb(222, 145, 252));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* Update-Button design when disabled: */
+.update-vacation .update-button:disabled{
+    width: 120px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(0, 204, 255), rgb(119, 255, 180),rgb(222, 145, 252));
+    color:rgb(165, 156, 156);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* Cancel-Button design */
+.update-vacation .cancel-button{
+    width: 80px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(229, 126, 250) , rgb(72, 228, 255),rgb(32, 240, 255));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+    margin-bottom: 20px;
+}
+
+/* Error note design */
+.update-vacation .update-vacation-error-note{
+    text-align: left;
+    display: block;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    padding-left: 7px;
+    margin:2px;
+    margin:auto;
+    height: 12px;
+}
+
+/* Doesn't display the original type="file" design */
+.update-vacation [type="file"]{
+   display: none;
+}
+
+/* Image uploader lable design */
+.image-uploader-lable{
+    width: 150px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(229, 126, 250) , rgb(72, 228, 255),rgb(32, 240, 255));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
+}
+
+/* Image uploader note design */
+.update-vacation .image-uploader-note{
+    padding:0;
+    margin:0;
+    margin-bottom: 5px;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(37, 10, 35);
+    text-shadow: -1px -1px 2px rgb(37, 10, 35);
+}
+
+/* Image uploader div design: */
+.update-vacation .image-uploader-div{
+    margin-bottom: 7px;
+    margin-top: 7px;
+}

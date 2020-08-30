@@ -1,0 +1,92 @@
+/* table design for the register page */
+.register-page table,.register-page  td,.register-page  tr{
+    text-align: center;
+    margin: auto ;
+    margin-top: 10px;
+    padding: 3px;
+}
+
+/* different design for table when screen size is under 768px */
+@media screen and (max-width: 767px) {
+    .register-page table,.register-page  td,.register-page  tr {
+        margin-top: 15px;
+    }
+}
+
+/* error notes design */
+small{
+    width: 220px;
+    text-align: left;
+}
+
+/* login text design */
+.register-page .login-text{
+    color:white;
+    font-size: 16px;
+    text-shadow: 1px 1px 2px rgb(51, 12, 35);
+    padding: 3px;
+    margin:0;
+}
+
+/* input boxes design */
+.register-page .register-class{
+    display: block;
+    margin:3px;
+    width: 210px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px rgb(119, 31, 82);
+}
+
+/* error notes design */
+.register-error-note{
+    color:white;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    padding: 3px;
+    margin:2px;
+    display: inline-block;
+    margin:auto;
+    text-align: left;
+}
+
+/* login-button design */
+.register-page .login-button{
+    width: 70px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(32, 240, 255), rgb(72, 228, 255),rgb(229, 126, 250));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* register button design when enabled */
+.register-page .register-button:enabled{
+    width: 100px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(32, 240, 255), rgb(72, 228, 255),rgb(229, 126, 250));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* register button design when disabled */
+.register-page .register-button:disabled{
+    width: 100px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(32, 240, 255), rgb(72, 228, 255),rgb(229, 126, 250));
+    color:rgb(124, 124, 124);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* cancel button design */
+ .register-page .cancel-button{
+    width: 100px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(229, 126, 250) , rgb(72, 228, 255),rgb(32, 240, 255));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}

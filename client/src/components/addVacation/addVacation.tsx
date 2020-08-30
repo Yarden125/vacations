@@ -1,0 +1,259 @@
+import React, { Component } from "react";
+import "./addVacation.css";
+import { Vacation } from "../../models/vacation";
+import axios from "axios";
+import { Heading } from "../heading/heading";
+import socketService from "../../services/socket-service";
+
+interface AddVacationState {
+    vacation: Vacation;
+    images: any;
+    currentDate: string;
+    chosenImage: string;
+    errors: {
+        errorDescription: string,
+        errorDestination: string,
+        errorImages: string,
+        errorStart: string,
+        errorEnd: string,
+        errorPrice: string
+    }
+}
+
+export class AddVacation extends Component<any, AddVacationState>{
+
+    // connecting to socket:
+    private socket = socketService.getSocket();
+    // private socket = socketIOClient("http://localhost:3001");
+    // private socket = socketIOClient("http://localhost:3002");
+
+    public constructor(props: any) {
+        super(props);
+        this.state = {
+            vacation: new Vacation(),
+            images: [],
+            currentDate: "",
+            chosenImage: "No image",
+            errors: {
+                errorDescription: "*",
+                errorDestination: "*",
+                errorImages: "*",
+                errorStart: "*",
+                errorEnd: "*",
+                errorPrice: "*",
+            }
+        };
+    }
+
+    // Getting the current date when component builds itself
+    public componentDidMount(): void {
+        this.getDate();
+    }
+
+    // // will disconnect a moment before the component destroys itself
+    // public componentWillUnmount(): void {
+    //     this.socket.disconnect();
+    // }
+
+    // Getting the input destination from the admin and saving it in the state
+    public setDestination = (e: any): void => {
+        const destination = e.target.value;
+        let errorMessage = "";
+        if (destination === "") {
+            errorMessage = "Missing destination";
+        }
+        if (destination.includes("'")) {
+            errorMessage = ` Apostrophe " ' " is a forbidden character!`;
+        }
+        const vacation = { ...this.state.vacation };
+        const errors = { ...this.state.errors };
+        vacation.destination = destination;
+        errors.errorDestination = errorMessage;
+        this.setState({ vacation, errors });
+    };
+
+    // Getting the input image from the admin and saving it in the state
+    public setImage = (e: any): void => {
+        const images = e.target.files[0];
+        let errorMessage = "";
+        const errors = { ...this.state.errors };
+        const chosenImage = e.target.files[0].name;
+        if (images === undefined) {
+            errorMessage = "Missing image";
+        }
+        errors.errorImages = errorMessage;
+        this.setState({ images, errors, chosenImage });
+    };
+
+    // Getting the input description from the admin and saving it in the state
+    public setDescription = (e: any): void => {
+        const description = e.target.value;
+        let errorMessage = "";
+        if (description === "") {
+            errorMessage = " Missing description";
+        }
+        if (description.includes("'")) {
+            errorMessage = ` Apostrophe " ' " is a forbidden character!`;
+        }
+        const vacation = { ...this.state.vacation };
+        const errors = { ...this.state.errors };
+        vacation.description = description;
+        errors.errorDescription = errorMessage;
+        this.setState({ vacation, errors });
+    };
+
+    // Getting the input price from the admin and saving it in the state
+    public setPrice = (e: any): void => {
+        const price = +e.target.value;
+        let errorMessage = "";
+        if (price === null) {
+            errorMessage = "Missing price";
+        }
+        const vacation = { ...this.state.vacation };
+        const errors = { ...this.state.errors };
+        vacation.price = price;
+        errors.errorPrice = errorMessage;
+        this.setState({ vacation, errors });
+    };
+
+    // Getting the input start date from the admin and saving it in the state
+    public setStart = (e: any): void => {
+        const start = e.target.value;
+        let errorMessage = "";
+        if (start === "") {
+            errorMessage = "Missing start date";
+        }
+        const vacation = { ...this.state.vacation };
+        const errors = { ...this.state.errors };
+        vacation.start = start;
+        errors.errorStart = errorMessage;
+        this.setState({ vacation, errors });
+    };
+
+    // Get current date:
+    public getDate(): void {
+        let today = new Date();
+        let dd = String(today.getDate());
+        let mm = String(today.getMonth() + 1);
+        let yyyy = today.getFullYear();
+        const currentDate = yyyy + "-" + mm + "-" + dd;
+        this.setState({ currentDate });
+    }
+
+    // Getting the input end date from the admin and saving it in the state
+    public setEnd = (e: any): void => {
+        const end = e.target.value;
+        let errorMessage = "";
+        if (end === "") {
+            errorMessage = "Missing end date";
+        }
+        const vacation = { ...this.state.vacation };
+        const errors = { ...this.state.errors };
+        vacation.end = end;
+        errors.errorEnd = errorMessage;
+        this.setState({ vacation, errors });
+    };
+
+    // Checking if form legal:
+    public isFormLegal(): boolean {
+        return this.state.errors.errorDestination === "" &&
+            this.state.errors.errorDescription === "" &&
+            this.state.errors.errorPrice === "" &&
+            this.state.errors.errorStart === "" &&
+            this.state.errors.errorEnd === "" &&
+            this.state.errors.errorImages === "" &&
+            this.state.vacation.destination !== "" &&
+            this.state.vacation.description !== "" &&
+            this.state.vacation.price !== null &&
+            this.state.vacation.start !== "" &&
+            this.state.vacation.end !== "";
+    }
+
+    // The component's HTML that is being rendered:
+    public render(): JSX.Element {
+        return (
+            <div className="add-vacation">
+                <div className="vacation-container-top">
+                    <form className="add-vacation-form" action="/upload-image" method="POST" encType="multipart/form-data">
+                        {/* table with all the inputs and error messages: */}
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <Heading>Adding Vacation</Heading>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input className="input-class" type="text" onChange={this.setDestination} value={this.state.vacation.destination} />
+                                        <small className="add-vacation-error-note">Destination</small>
+                                        <small className="add-vacation-error-note">{this.state.errors.errorDestination}</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <textarea className="textarea-class" onChange={this.setDescription} value={this.state.vacation.description}></textarea>
+                                        <small className="add-vacation-error-note">Description</small>
+                                        <small className="add-vacation-error-note">{this.state.errors.errorDescription}</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input className="input-class" type="number" onChange={this.setPrice} value={this.state.vacation.price} />
+                                        <small className="add-vacation-error-note">Price</small>
+                                        <small className="add-vacation-error-note">{this.state.errors.errorPrice}</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input className="input-class" type="date" min={this.state.currentDate} max={this.state.vacation.end} onChange={this.setStart} value={this.state.vacation.start} />
+                                        <small className="add-vacation-error-note">Start</small>
+                                        <small className="add-vacation-error-note">{this.state.errors.errorStart}</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input className="input-class" type="date" min={this.state.vacation.start} onChange={this.setEnd} value={this.state.vacation.end} />
+                                        <small className="add-vacation-error-note">End</small>
+                                        <small className="add-vacation-error-note">{this.state.errors.errorEnd}</small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {/* Image upload: */}
+                        <div className="image-uploader-div">
+                            <label className="image-uploader-lable">Choose Image
+                            <input id="vacation-image" multiple={false} formAction="/upload-image" type="file" formEncType="multipart/form-data"
+                                    accept="image/*" name="vacationImage" onChange={this.setImage} className="image-uploader" />
+                            </label>
+                            <small className="image-uploader-note">{this.state.chosenImage}</small>
+                            <small className="image-uploader-note">{this.state.errors.errorImages}</small>
+                        </div>
+                        {/* Buttons: */}
+                        <button type="button" disabled={!this.isFormLegal()} onClick={this.addVacation} className="add-button">Add Vacation</button>
+                        <button type="button" onClick={this.cancelAdding} className="cancel-button">Cancel</button>
+                    </form>
+
+                </div>
+            </div>
+        );
+    }
+
+    // Adding the vacation
+    private addVacation = (): void => {
+        this.socket.emit("admin-is-logging-out", true);
+        const fd = new FormData();
+        fd.append('vacationImage', this.state.images);
+        fd.append("vacation", JSON.stringify(this.state.vacation));
+        axios.post("http://localhost:3001/upload-image", fd)
+        this.socket.disconnect();
+        this.props.history.push("/admin");
+    }
+
+    // Canceling the changes and going back to admin page
+    public cancelAdding = (): void => {
+        this.socket.emit("admin-is-logging-out", true);
+        this.socket.disconnect();
+        this.props.history.push("/admin");
+    }
+}

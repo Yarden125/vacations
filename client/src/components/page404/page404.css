@@ -1,0 +1,43 @@
+/* P design for page 404 */
+.page-404 p{
+    color:white;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    padding: 3px;
+    margin-top:30px;
+    margin-bottom: 0;
+}
+
+/* NavLink Home desgined as a button */
+.home-class-inactive, .logout-class-active {
+    color:white;
+    margin-top: 20px;
+    text-decoration: none;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.075);
+    text-align: center;
+    display: inline-block;
+    width: 75px;
+    height:33px;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+}
+
+/* NavLink Home as a button when hovering over it desgined*/
+.home-class-inactive:hover {
+    color:white;
+    margin-top: 20px;
+    text-decoration: none;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.075);
+    text-align: center;
+    display: inline-block;
+    width: 75px;
+    height:33px;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    border-top: 2px solid gray;
+    border-left: 2px solid gray;
+}

@@ -1,0 +1,124 @@
+/* table design */
+.login-page table,.login-page  tbody,.login-page  tr,.login-page  td{
+    text-align: center;
+    margin: auto 500px;
+    margin-top: 5px;
+    padding: 3px;
+}
+
+/* different design for the table when screen is under 768px */
+@media screen and (max-width: 767px) {
+    .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
+        margin: auto; 
+    }
+}
+
+/* different design for the table when screen is over 767px and under 991px */
+@media screen and (min-width: 768px) {
+    .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
+        margin: auto 200px; 
+    }
+}
+
+/* different design for the table when screen is over 991px */
+@media screen and (min-width: 992px) {
+    .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
+        margin: auto 500px; 
+    }
+}
+
+/* admin checkbox div design */
+.login-page .admin-checkbox-div{
+    margin-top: 20px;
+}
+
+/* admin checkbox design  */
+.login-page .checkbox-admin{
+    width:15px;
+    height:15px;
+    border-radius: 2px;
+    color:white;
+}
+
+/* admin text design  */
+.login-page .admin-text{
+    color:white;
+    font-size: 16px;
+    padding: 3px;
+    margin:0;
+}
+
+/* login button design when enabled */
+.login-button:enabled{
+    width: 210px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(0, 204, 255), rgb(119, 255, 180),rgb(222, 145, 252));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* login button design when disabled */
+.login-button:disabled{
+    width: 210px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(0, 204, 255), rgb(119, 255, 180),rgb(222, 145, 252));
+    color:rgb(165, 156, 156);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* register button in the login page design */
+.login-page .register-button{
+    width:70px;
+    height:30px;
+    padding:0;
+    text-align: center;
+    background-image: linear-gradient(45deg, rgb(0, 204, 255), rgb(119, 255, 180),rgb(222, 145, 252));
+    color:white;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    
+}
+
+/* register text design */
+.login-page .register-text{
+    color:white;
+    font-size: 16px;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    padding: 3px;
+    margin:0;
+}
+
+/* input box design */
+.login-page .input-class{
+    width:210px;
+    height:30px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 3px rgb(85, 19, 57);
+    padding:3px;
+    display: inline-block;
+    margin:auto;
+}
+
+/* error notes design */
+.login-error-note{
+    color:white;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    padding: 3px;
+    margin:2px;
+    display: inline-block;
+    margin:auto;
+}
+
+/* login error note design */
+.login-error-note-login{
+    color:white;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    padding: 3px;
+    margin:2px;
+    display: inline-block;
+    margin:auto;
+    text-align: center;
+}

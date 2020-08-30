@@ -1,0 +1,62 @@
+/* NavLink - Logout design as a button */
+.logout-class-inactive, .logout-class-active {
+    color:white;
+    position: absolute;
+    right:25px;
+    top:15px;
+    text-decoration: none;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.075);
+    text-shadow: 2px 2px 3px gray;
+    text-align: center;
+    display: inline-block;
+    width: 75px;
+    height:33px;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+}
+
+/* NavLink - Logout design as a button - when hovering over it*/
+.logout-class-inactive:hover {
+    color:white;
+    position: absolute;
+    right:25px;
+    top:15px;
+    text-decoration: none;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.075);
+    text-shadow: 2px 2px 3px gray;
+    text-align: center;
+    display: inline-block;
+    width: 75px;
+    height:33px;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    border-top: 2px solid gray;
+    border-left: 2px solid gray;
+}
+
+/* Different design for the logout NavLink when screen size is under 768px */
+@media screen and (max-width: 767px) {
+    .logout-class-inactive, .logout-class-active, .logout-class-inactive:hover {
+        width: 30px;
+        height:15px;
+        font-size: 8px;
+        right:10px;
+        top:3px;
+    }
+}
+
+/* Different design for the logout NavLink when screen size is over 991px */
+@media screen and (min-width: 992px) {
+    .logout-class-inactive, .logout-class-active, .logout-class-inactive:hover {
+        width: 75px;
+        height:33px;
+        font-size: 16px;
+        right:25px;
+        top:0;
+    }
+}
+

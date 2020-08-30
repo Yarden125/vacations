@@ -1,0 +1,28 @@
+/* Header title design */
+.header h1{
+    color: white;
+    font-size: 100px;
+    font-family: 'vacations-header';
+    margin:20px;
+}
+
+/* customized font for the header title */
+@font-face{
+    src: url("/assets/fonts/BELACU.ttf");
+    font-family: "vacations-header";
+}
+
+/* different design for header h1 when screen size is under 768px */
+@media screen and (max-width: 767px) {
+    .header h1 {
+        font-size: 90px;
+        margin:25px;
+    }
+}
+
+/* different design for header h1 when screen size is over 991px */
+@media screen and (min-width: 992px) {
+    .header h1 {
+        font-size: 100px;
+    }
+}

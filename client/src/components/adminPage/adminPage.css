@@ -1,0 +1,204 @@
+/* admin div position design */
+.admin{
+    position: relative;
+}
+
+/* Add Vacation button design: */
+.admin .add-vacation-button{
+    width: 120px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(32, 240, 255), rgb(72, 228, 255),rgb(229, 126, 250));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* Add Vacation button design when hovering over it: */
+.admin .add-vacation-button:hover{
+    width: 120px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(32, 240, 255), rgb(72, 228, 255),rgb(229, 126, 250));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    border-right: 2px solid rgb(228, 228, 228);
+    border-bottom: 2px solid rgb(228, 228, 228);
+    border-left: 2px solid gray;
+    border-top: 2px solid gray;
+    margin:3px;
+}
+
+/* Modal - Delete-Button for deleting the vacation design: */
+.modal-button-delete{
+    width: 75px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(229, 126, 250), rgb(72, 228, 255), rgb(32, 240, 255));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;
+}
+
+/* Modal - Cancel-Button for not deleting the vacation design: */
+.modal-button-cancel{
+    width: 75px;
+    height: 30px;
+    background-image: linear-gradient(45deg, rgb(32, 240, 255), rgb(72, 228, 255),rgb(229, 126, 250));
+    color:white;
+    text-shadow: 2px 2px 3px rgb(85, 19, 57);
+    border-radius: 3px;
+    margin:3px;;
+}
+
+/* vacation container top design */
+.admin .vacation-container-top{
+    display: inline-block;
+    position: relative;
+}
+
+/* vacation container design */
+.admin .vacations-container{
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px white;
+    display: inline-block;
+    width:290px;
+    margin:10px 7px;
+    background-color: rgba(104, 104, 104, 0.192);  
+}
+
+/* Vacation image design */
+.admin .vacation-image{
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 270px;
+    height:180px;
+    box-shadow: 3px 3px 7px lightgray;
+    border-radius: 3px;
+    border:1px solid white;
+}
+
+/* vacation destination design */
+.admin .v-destination-p{
+    margin:0;
+    padding: 0;
+    text-align: center;
+    font-size: 50px;
+    display: inline-block;
+    color: white;
+    font-family: "vacations-destination-title";
+}
+
+/* customized font for vacation destination */
+@font-face{
+    src: url("/assets/fonts/PeachesForBreakfast-Regular.ttf");
+    font-family: "vacations-destination-title";
+}
+
+/* vacation description div design */
+.admin .v-description{
+    height: 120px;
+}
+
+/* vacation price and dates design */
+.admin .vacation-details-class{
+    padding:0;
+    margin:0;
+    margin-bottom: 5px;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(37, 10, 35);
+    text-shadow: -1px -1px 2px rgb(37, 10, 35);
+}
+
+/* vacation description design */
+.admin .vacation-details-class-description{
+    height:46px;
+    overflow: auto;
+    padding:0;
+    margin:0;
+    margin-bottom: 5px;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(37, 10, 35);
+    text-shadow: -1px -1px 2px rgb(37, 10, 35);
+}
+
+/* Trash delete-vacation button design*/
+.admin .trash{
+    width:30px;
+    height: 30px;
+    position: absolute;
+    transform: translatex(104px);
+    margin-top: 7px;
+    display: inline-block;
+    filter: brightness(200%);
+}
+
+/* Trash delete-vacation button design when hovering over it*/
+.admin .trash:hover{
+    width:33px;
+    height: 33px;
+    position: absolute;
+    transform: translatex(104px);
+    margin-top: 5px;
+    display: inline-block;
+    filter: brightness(200%);
+}
+
+/* Pencil - update Vacation button design */
+.admin .pencil{
+    width:30px;
+    height: 30px;
+    position: absolute;
+    transform: translatex(77px);
+    margin-top: 7px;
+    display: inline-block;
+    filter: brightness(200%);
+}
+
+/* Pencil - update Vacation button design when hovering over it */
+.admin .pencil:hover{
+    width:33px;
+    height: 33px;
+    position: absolute;
+    transform: translatex(77px);
+    margin-top: 5px;
+    display: inline-block;
+    filter: brightness(200%);
+}
+
+/* Hello Admin title design */
+.welcome-admin{
+    color: white;
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-family:"welcome-admin-title" ;
+}
+
+/* customized font for welcome-admin */
+@font-face{
+    src: url("/assets/fonts/Sunday\ Holiday.ttf");
+    font-family: "welcome-admin-title";
+}
+
+/* different design for welcome-admin when screen size is under 768px */
+@media screen and (max-width: 767px) {
+    .welcome-admin {
+        font-size: 25px;
+        margin-top: 7px;
+        margin-bottom: 0px;
+    }
+}
+
+/* Modal background opacity */
+.modal-backdrop{
+    background-color: rgba(0, 0, 0, 0.055) !important;
+}
+
+
+
+
+
+

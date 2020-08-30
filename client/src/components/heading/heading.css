@@ -1,0 +1,14 @@
+/* Heading design */
+.heading h2{
+    color: white;
+    font-size: 20px;
+    font-family: 'page-heading';
+    margin-bottom:10px;
+    margin-top: 10px;
+}
+
+/* Customized font for heading */
+@font-face{
+    src: url("/assets/fonts/Sunday\ Holiday.ttf");
+    font-family: "page-heading";
+}
