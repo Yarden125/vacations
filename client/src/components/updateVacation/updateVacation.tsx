@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import "./updateVacation.css";
 import { Vacation } from "../../models/vacation";
-// import socketIOClient from "socket.io-client";
-import axios from "axios";
 import { Heading } from "../heading/heading";
 import socketService from "../../services/socket-service";
+import apiService from "../../services/api-service";
 
 interface UpdateVacationState {
     vacationToUpdate: Vacation;
@@ -23,10 +22,8 @@ interface UpdateVacationState {
 
 export class UpdateVacation extends Component<any, UpdateVacationState>{
 
-    // connecting to socket:
+    // Get socket:
     private socket = socketService.getSocket();
-    // private socket = socketIOClient("http://localhost:3001");
-    // private socket = socketIOClient("http://localhost:3002");
 
     public constructor(props: any) {
         super(props);
@@ -49,8 +46,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
     // Getting the specific requested vacation to update - it's one when the component builds itself
     public componentDidMount(): void {
         const id = +this.props.match.params.vacationID;
-        fetch("http://localhost:3001/api/vacations/" + id)
-            .then(response => response.json())
+        apiService.getVacation(id)
             .then(vacation => {
                 const vacationToUpdate = vacation;
                 this.setState({ vacationToUpdate });
@@ -64,7 +60,6 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
     // will disconnect  and return to admin page a moment before the component destroys itself
     public componentWillUnmount(): void {
         this.socket.emit("admin-is-logging-out", true);
-        this.socket.disconnect();
     }
 
     // Getting the input destination from the admin and saving it in the state
@@ -182,7 +177,6 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
             <div className="update-vacation">
                 <div className="update-vacation-container-top">
                     <form>
-                        {/* table with all the inputs and error messages: */}
                         <table>
                             <tbody>
                                 <tr>
@@ -227,7 +221,6 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
                                 </tr>
                             </tbody>
                         </table>
-                        {/* Image upload: */}
                         <div className="image-uploader-div">
                             <label className="image-uploader-lable">Choose Image
                             <input id="vacation-image" multiple={false} formAction="/upload-image" type="file" formEncType="multipart/form-data"
@@ -235,7 +228,6 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
                             </label>
                             <small className="image-uploader-note">{this.state.chosenImage}</small>
                         </div>
-                        {/* Buttons: */}
                         <button type="button" disabled={!this.isFormLegal()} onClick={this.saveChanges} className="update-button">Save changes</button>
                         <button type="button" onClick={this.cancelChanges} className="cancel-button">Cancel</button>
                     </form>
@@ -251,15 +243,13 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         fd.append('vacationImage', this.state.images);
         fd.append("vacation", JSON.stringify(this.state.vacationToUpdate));
         fd.append("prevImage", this.state.currentImage);
-        axios.put("http://localhost:3001/update-image", fd)
-        this.socket.disconnect();
+        apiService.updateVacation(fd);
         this.props.history.push("/admin");
     };
 
     // Doesn't save changes and go back to admin page
     public cancelChanges = (): void => {
         this.socket.emit("admin-is-logging-out", true);
-        this.socket.disconnect();
         this.props.history.push("/admin");
     };
 }

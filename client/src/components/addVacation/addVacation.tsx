@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./addVacation.css";
 import { Vacation } from "../../models/vacation";
-import axios from "axios";
 import { Heading } from "../heading/heading";
 import socketService from "../../services/socket-service";
+import apiService from "../../services/api-service";
 
 interface AddVacationState {
     vacation: Vacation;
@@ -22,10 +22,8 @@ interface AddVacationState {
 
 export class AddVacation extends Component<any, AddVacationState>{
 
-    // connecting to socket:
+    // Get socket:
     private socket = socketService.getSocket();
-    // private socket = socketIOClient("http://localhost:3001");
-    // private socket = socketIOClient("http://localhost:3002");
 
     public constructor(props: any) {
         super(props);
@@ -49,11 +47,6 @@ export class AddVacation extends Component<any, AddVacationState>{
     public componentDidMount(): void {
         this.getDate();
     }
-
-    // // will disconnect a moment before the component destroys itself
-    // public componentWillUnmount(): void {
-    //     this.socket.disconnect();
-    // }
 
     // Getting the input destination from the admin and saving it in the state
     public setDestination = (e: any): void => {
@@ -175,7 +168,6 @@ export class AddVacation extends Component<any, AddVacationState>{
             <div className="add-vacation">
                 <div className="vacation-container-top">
                     <form className="add-vacation-form" action="/upload-image" method="POST" encType="multipart/form-data">
-                        {/* table with all the inputs and error messages: */}
                         <table>
                             <tbody>
                                 <tr>
@@ -220,7 +212,6 @@ export class AddVacation extends Component<any, AddVacationState>{
                                 </tr>
                             </tbody>
                         </table>
-                        {/* Image upload: */}
                         <div className="image-uploader-div">
                             <label className="image-uploader-lable">Choose Image
                             <input id="vacation-image" multiple={false} formAction="/upload-image" type="file" formEncType="multipart/form-data"
@@ -229,11 +220,9 @@ export class AddVacation extends Component<any, AddVacationState>{
                             <small className="image-uploader-note">{this.state.chosenImage}</small>
                             <small className="image-uploader-note">{this.state.errors.errorImages}</small>
                         </div>
-                        {/* Buttons: */}
                         <button type="button" disabled={!this.isFormLegal()} onClick={this.addVacation} className="add-button">Add Vacation</button>
                         <button type="button" onClick={this.cancelAdding} className="cancel-button">Cancel</button>
                     </form>
-
                 </div>
             </div>
         );
@@ -245,15 +234,13 @@ export class AddVacation extends Component<any, AddVacationState>{
         const fd = new FormData();
         fd.append('vacationImage', this.state.images);
         fd.append("vacation", JSON.stringify(this.state.vacation));
-        axios.post("http://localhost:3001/upload-image", fd)
-        this.socket.disconnect();
+        apiService.addVacation(fd);
         this.props.history.push("/admin");
     }
 
     // Canceling the changes and going back to admin page
     public cancelAdding = (): void => {
         this.socket.emit("admin-is-logging-out", true);
-        this.socket.disconnect();
         this.props.history.push("/admin");
     }
 }

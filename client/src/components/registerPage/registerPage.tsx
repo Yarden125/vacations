@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import "./registerPage.css";
 import { User } from "../../models/user";
 import { store } from "../../redux/store";
-// import socketIOClient from "socket.io-client";
 import { Unsubscribe } from "redux";
 import { ActionType } from "../../redux/actionType";
 import socketService from "../../services/socket-service";
+import apiService from "../../services/api-service";
 
 interface RegisterPageState {
     users: User[];
@@ -20,8 +20,8 @@ interface RegisterPageState {
 
 export class RegisterPage extends Component<any, RegisterPageState>{
 
-    // Socket function
-    public socket;
+    // Get socket
+    public socket = socketService.getSocket();;
 
     // Function for subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
@@ -195,27 +195,15 @@ export class RegisterPage extends Component<any, RegisterPageState>{
 
     // Add user
     private addUser = (): void => {
-        fetch("http://localhost:3001/api/users/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(this.state.user)
-        })
-            .then(response => response.json())
+        apiService.addUser(JSON.stringify(this.state.user))
             .then(result => {
                 if (result) {
                     // If username doesn't exists - registen and login automatically to the new user's page
-                    this.socket = socketService.getSocket();
-                    // this.socket = socketIOClient("http://localhost:3001");
-                    // this.socket = socketIOClient("http://localhost:3002");
                     const userId = result.id;
                     this.socket.emit("new-user-is-logged-in", { loggedIn: true, userId: userId });
                     this.socket.on("new-user-now-logged-in", user => {
                         const action = { type: ActionType.GetOneUser, payload: user };
                         store.dispatch(action);
-                        this.socket.disconnect();
                         this.props.history.push("/vacations/user/" + result.id);
                     });
                 }

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "./loginPage.css";
 import { Login } from "../../models/login";
-import socketIOClient from "socket.io-client";
 import { Admin } from "../../models/admin";
 import { Unsubscribe } from "redux";
 import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
 import { User } from "../../models/user";
 import socketService from "../../services/socket-service";
+import apiService from "../../services/api-service"
 
 interface LoginPageState {
     login: Login;
@@ -23,9 +23,9 @@ interface LoginPageState {
 
 export class LoginPage extends Component<any, LoginPageState>{
 
-    // socket function
-    private socket;
-
+    // Get socket
+    private socket = socketService.getSocket();
+    
     // function for subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
 
@@ -104,26 +104,14 @@ export class LoginPage extends Component<any, LoginPageState>{
 
     // If Admin was checked in the checkbox - get Admin API according to login details
     public loginAdmin(): void {
-        fetch("http://localhost:3001/api/admin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-            body: JSON.stringify(this.state.login)
-        })
-            .then(response => response.json())
+        apiService.loginAdmin(JSON.stringify(this.state.login))
             .then(admin => {
                 // If details are correct - would log in to Admin:
                 if (admin) {
-                    this.socket = socketService.getSocket();
-                    // this.socket = socketIOClient("http://localhost:3001");
-                    // this.socket = socketIOClient("http://localhost:3002");
                     this.socket.emit("admin-is-logged-in", true);
                     this.socket.on("admin-now-logged-in", admin => {
                         const action = { type: ActionType.GetAdmin, payload: admin };
                         store.dispatch(action);
-                        this.socket.disconnect();
                         this.props.history.push("/admin");
                     });
                 }
@@ -144,28 +132,16 @@ export class LoginPage extends Component<any, LoginPageState>{
 
     // If Admin was not checked in the checkbox - get User API according to login details 
     public loginUser(): void {
-        fetch("http://localhost:3001/api/users/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-            body: JSON.stringify(this.state.login)
-        })
-            .then(response => response.json())
+        apiService.loginUser(JSON.stringify(this.state.login))
             .then(result => {
                 // If details are correct - would log in to the specific user:
                 if (result.checkedLogin === true) {
-                    this.socket = socketService.getSocket();
-                    // this.socket = socketIOClient("http://localhost:3001");
-                    // this.socket = socketIOClient("http://localhost:3002");
                     const userId = result.userDetails[0].id;
                     // socketService.updateUserLoginStatus(userId, true);
                     this.socket.emit("user-is-logged-in", { loggedIn: true, userId: userId });
                     this.socket.on("user-now-logged-in", user => {
                         const action = { type: ActionType.GetOneUser, payload: user };
                         store.dispatch(action);
-                        this.socket.disconnect();
                         this.props.history.push("/vacations/user/" + userId);
                     });
                 }
@@ -190,7 +166,6 @@ export class LoginPage extends Component<any, LoginPageState>{
     public isFormLegal(): boolean {
         return this.state.errors.usernameError === "" &&
             this.state.errors.passwordError === "";
-
     }
 
     // Sends the user to the register page

@@ -151,8 +151,6 @@ socketServer.sockets.on("connection", socket => {
 
 });
 
-// httpServer.listen(3002, () => console.log("Socket- Listening on 3002..."));
-
 httpServer.listen(3001, () => {
     console.log("Listening to 3001...");
 });

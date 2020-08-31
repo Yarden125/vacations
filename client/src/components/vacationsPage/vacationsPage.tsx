@@ -6,8 +6,8 @@ import { ActionType } from "../../redux/actionType";
 import { Unsubscribe } from "redux";
 import { FollowedVacation } from "../../models/followedVacation";
 import { User } from "../../models/user";
-// import socketIOClient from "socket.io-client";
 import socketService from "../../services/socket-service";
+import apiService from "../../services/api-service";
 
 interface VacationsState {
     vacations: Vacation[];
@@ -24,12 +24,10 @@ interface VacationsState {
 
 export class Vacations extends Component<any, VacationsState>{
 
-    // connecting to socket:
+    // Get socket:
     private socket = socketService.getSocket();
-    // private socket = socketIOClient("http://localhost:3001");
-    // private socket = socketIOClient("http://localhost:3002");
 
-    // function for subscribing to changes in the store
+    // Subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
 
     public constructor(props: any) {
@@ -58,8 +56,7 @@ export class Vacations extends Component<any, VacationsState>{
     // checks if the user is logged in:
     public isUserLoggedIn(): void {
         const id = +this.props.match.params.userID;
-        fetch("http://localhost:3001/api/users/loggedIn/" + id)
-            .then(response => response.json())
+        apiService.isUserLoggedIn(id)
             .then(result => {
                 if (result) {
                     // If logged in- getUserPage
@@ -82,7 +79,6 @@ export class Vacations extends Component<any, VacationsState>{
         this.setState({ currentUserID });
         this.getAllFollowedVacations(id);
         if (isNaN(id)) {
-            this.socket.disconnect();
             this.props.history.push("/page404");
         }
         else {
@@ -93,35 +89,35 @@ export class Vacations extends Component<any, VacationsState>{
 
     // Sockets functions:
     public socketsFunctions(): void {
-        // Imidiate update when vacation id being followed
+        // Immediate update when vacation id being followed
         this.socket.on("vacation-is-being-followed", followedObj => {
             const action = { type: ActionType.AddFollowedVacation, payload: followedObj };
             store.dispatch(action);
             this.splitVacations();
         });
 
-        // Imidiate update when vacation is being unfollowed
+        // Immediate update when vacation is being unfollowed
         this.socket.on("vacation-is-being-unfollowed", unfollowedObj => {
             const action = { type: ActionType.UnfollowVacation, payload: unfollowedObj };
             store.dispatch(action);
             this.splitVacations();
         });
 
-        // Imidiate update when vacation was added 
+        // Immediate update when vacation was added 
         this.socket.on("vacation-has-been-added", addedVacation => {
             const action = { type: ActionType.AddVacation, payload: addedVacation };
             store.dispatch(action);
             this.splitVacations();
         });
 
-        // Imidiate update when vacation was deleted 
+        // Immediate update when vacation was deleted 
         this.socket.on("vacation-was-deleted", id => {
             const action = { type: ActionType.DeleteVacation, payload: id };
             store.dispatch(action);
             this.splitVacations();
         });
 
-        // Imidiate update when vacation was updated 
+        // Immediate update when vacation was updated 
         this.socket.on("vacation-has-been-updated", updatedVacation => {
             const action = { type: ActionType.UpdateFullVacation, payload: updatedVacation };
             store.dispatch(action);
@@ -132,8 +128,7 @@ export class Vacations extends Component<any, VacationsState>{
     // Get all vacations from API
     public getAllVacations(): void {
         if (store.getState().vacations.length === 0) {
-            fetch("http://localhost:3001/api/vacations")
-                .then(response => response.json())
+            apiService.getVacations()
                 .then(vacations => {
                     const action = { type: ActionType.GetAllVacations, payload: vacations };
                     store.dispatch(action);
@@ -145,8 +140,7 @@ export class Vacations extends Component<any, VacationsState>{
     // Get all followed vacations by this user
     public getAllFollowedVacations(id: number): void {
         if (store.getState().followedVacations.length === 0) {
-            fetch("http://localhost:3001/api/followed/myVacations/" + id)
-                .then(response => response.json())
+            apiService.getFollowedVacation(id)
                 .then(followedVacations => {
                     const action = { type: ActionType.GetAllFollowedVacations, payload: followedVacations }
                     store.dispatch(action);
@@ -181,8 +175,7 @@ export class Vacations extends Component<any, VacationsState>{
 
     // Get the specific user from API
     public getSpecificUser(id: number): void {
-        fetch("http://localhost:3001/api/users/username/" + id)
-            .then(response => response.json())
+        apiService.getUser(id)
             .then(username => {
                 const action = { type: ActionType.GetOneUser, payload: username }
                 store.dispatch(action);
@@ -193,7 +186,6 @@ export class Vacations extends Component<any, VacationsState>{
     // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
     public componentWillUnmount(): void {
         this.socket.emit("user-is-logging-out", { loggedIn: false, userId: this.state.currentUserID });
-        this.socket.disconnect();
         this.unsubscribeStore();
     }
 

@@ -48,7 +48,6 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
 
         // Action type - Update Vacation:
         case ActionType.UpdateFullVacation:
-            console.log("action.payload.id: ", action.payload.id);
             for (let i = 0; i < newAppState.vacations.length; i++) {
                 if (newAppState.vacations[i].id === action.payload.id) {
                     newAppState.vacations[i] = action.payload;

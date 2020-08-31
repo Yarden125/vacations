@@ -13,11 +13,7 @@ import { Header } from "../header/header";
 import socketService from "../../services/socket-service";
 
 export class Layout extends Component {
-
-    // Connecting to socket:
-    public componentDidMount():void{
-        socketService.initialize();
-    }
+    public socket = socketService.initialize();;
 
     // Disconnect from socket a moment before the component will end it's life cycle:
     public componentWillUnmount(): void {

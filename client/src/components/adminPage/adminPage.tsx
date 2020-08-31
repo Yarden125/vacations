@@ -4,10 +4,10 @@ import { Vacation } from "../../models/vacation";
 import { Unsubscribe } from "redux";
 import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
-// import socketIOClient from "socket.io-client";
 import Modal from 'react-bootstrap/Modal';
 import { Admin } from "../../models/admin";
 import socketService from "../../services/socket-service";
+import apiService from "../../services/api-service";
 
 interface AdminPageState {
     vacations: Vacation[];
@@ -22,9 +22,8 @@ interface AdminPageState {
 
 export class AdminPage extends Component<any, AdminPageState>{
 
-    // connecting to socket:
+    // Get socket:
     private socket = socketService.getSocket();
-    // private socket = socketIOClient("http://localhost:3002");
 
     // function for subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
@@ -52,9 +51,7 @@ export class AdminPage extends Component<any, AdminPageState>{
 
     // checks if Admin is logged in:
     public isAdminLoggedIn(): void {
-        // apiService.isUserLohgedIn()
-        fetch("http://localhost:3001/api/admin/loggedIn")
-            .then(response => response.json())
+        apiService.isAdminLoggedIn()
             .then(result => {
                 if (result) {
                     // If logged in- getAdmin
@@ -72,9 +69,7 @@ export class AdminPage extends Component<any, AdminPageState>{
     // get admin from API
     public getAdmin(): void {
         if (store.getState().admin.length === 0) {
-            // serverApi.getAdmin()
-            fetch("http://localhost:3001/api/admin")
-                .then(response => response.json())
+            apiService.getAdmin()
                 .then(admin => {
                     const action = { type: ActionType.GetAdmin, payload: admin };
                     store.dispatch(action);
@@ -90,7 +85,6 @@ export class AdminPage extends Component<any, AdminPageState>{
 
         // Immediate update when vacation was deleted
         this.socket.on("vacation-was-deleted", id => {
-        // this.socket.on("vacation-was-deleted", id => {
             const action = { type: ActionType.DeleteVacation, payload: id };
             store.dispatch(action);
         });
@@ -103,7 +97,6 @@ export class AdminPage extends Component<any, AdminPageState>{
 
         // Immediate update when vacation was updated
         this.socket.on("vacation-has-been-updated", updatedVacation => {
-            console.log("vacation has been updated", updatedVacation);
             const action = { type: ActionType.UpdateFullVacation, payload: updatedVacation };
             store.dispatch(action);
         });
@@ -112,8 +105,7 @@ export class AdminPage extends Component<any, AdminPageState>{
     // get all vacations from API
     public getAllVacations(): void {
         if (store.getState().vacations.length === 0) {
-            fetch("http://localhost:3001/api/vacations")
-                .then(response => response.json())
+            apiService.getVacations()
                 .then(vacations => {
                     const action = { type: ActionType.GetAllVacations, payload: vacations };
                     store.dispatch(action);
