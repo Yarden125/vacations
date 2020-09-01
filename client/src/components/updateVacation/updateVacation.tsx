@@ -171,6 +171,16 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
             this.state.vacationToUpdate.end !== "";
     }
 
+     // Text and Error text function
+     public renderDetailsArea(text,error){
+        return (
+            <>
+              <small className="update-vacation-error-note">{text}</small>
+              <small className="update-vacation-error-note">{error}</small>
+            </>
+        );
+    }
+
     // The component's HTML that is being rendered:
     public render(): JSX.Element {
         return (
@@ -186,37 +196,37 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
                                 </tr>
                                 <tr>
                                     <td>
+                                        <small className="update-vacation-error-note">*All fields are requierd</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         <input className="input-update-vacation" type="text" onChange={this.setDestination} value={this.state.vacationToUpdate.destination} />
-                                        <small className="update-vacation-error-note">Destination</small>
-                                        <small className="update-vacation-error-note">{this.state.errors.errorDestination}</small>
+                                        {this.renderDetailsArea("Destination",this.state.errors.errorDestination )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <textarea className="textarea-update-vacation" onChange={this.setDescription} value={this.state.vacationToUpdate.description}></textarea>
-                                        <small className="update-vacation-error-note">Description</small>
-                                        <small className="update-vacation-error-note">{this.state.errors.errorDescription}</small>
+                                        {this.renderDetailsArea("Description",this.state.errors.errorDescription )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="number" onChange={this.setPrice} value={this.state.vacationToUpdate.price} />
-                                        <small className="update-vacation-error-note">Price</small>
-                                        <small className="update-vacation-error-note">{this.state.errors.errorPrice}</small>
+                                        {this.renderDetailsArea("Price",this.state.errors.errorPrice )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="date" min={this.state.currentDate} max={this.state.vacationToUpdate.end} onChange={this.setStart} value={this.state.vacationToUpdate.start} />
-                                        <small className="update-vacation-error-note">Start</small>
-                                        <small className="update-vacation-error-note">{this.state.errors.errorStart}</small>
+                                        {this.renderDetailsArea("Start",this.state.errors.errorStart )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="date" min={this.state.vacationToUpdate.start} onChange={this.setEnd} value={this.state.vacationToUpdate.end} />
-                                        <small className="update-vacation-error-note">End</small>
-                                        <small className="update-vacation-error-note">{this.state.errors.errorEnd}</small>
+                                        {this.renderDetailsArea("End",this.state.errors.errorEnd )}
                                     </td>
                                 </tr>
                             </tbody>

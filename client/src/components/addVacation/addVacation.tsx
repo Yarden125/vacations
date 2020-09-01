@@ -24,6 +24,7 @@ export class AddVacation extends Component<any, AddVacationState>{
 
     // Get socket:
     private socket = socketService.getSocket();
+    // private currentDate = this.getDate();
 
     public constructor(props: any) {
         super(props);
@@ -33,12 +34,12 @@ export class AddVacation extends Component<any, AddVacationState>{
             currentDate: "",
             chosenImage: "No image",
             errors: {
-                errorDescription: "*",
-                errorDestination: "*",
-                errorImages: "*",
-                errorStart: "*",
-                errorEnd: "*",
-                errorPrice: "*",
+                errorDescription: "",
+                errorDestination: "",
+                errorImages: "",
+                errorStart: "",
+                errorEnd: "",
+                errorPrice: "",
             }
         };
     }
@@ -46,6 +47,11 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the current date when component builds itself
     public componentDidMount(): void {
         this.getDate();
+        // let date = this.getDate();
+        // this.setState({ currentDate:date });
+        // console.log(date);
+        // console.log(this.state.currentDate);
+        // console.log("componentDidMount");
     }
 
     // Getting the input destination from the admin and saving it in the state
@@ -124,11 +130,13 @@ export class AddVacation extends Component<any, AddVacationState>{
     };
 
     // Get current date:
-    public getDate(): void {
+    public getDate(): any {
         let today = new Date();
         let dd = String(today.getDate());
         let mm = String(today.getMonth() + 1);
         let yyyy = today.getFullYear();
+        // return yyyy + "-" + mm + "-" + dd;
+
         const currentDate = yyyy + "-" + mm + "-" + dd;
         this.setState({ currentDate });
     }
@@ -162,6 +170,16 @@ export class AddVacation extends Component<any, AddVacationState>{
             this.state.vacation.end !== "";
     }
 
+    // Text and Error text function
+    public renderDetailsArea(text,error){
+        return (
+            <>
+              <small className="add-vacation-error-note">{text}</small>
+              <small className="add-vacation-error-note">{error}</small>
+            </>
+        );
+    }
+
     // The component's HTML that is being rendered:
     public render(): JSX.Element {
         return (
@@ -177,37 +195,37 @@ export class AddVacation extends Component<any, AddVacationState>{
                                 </tr>
                                 <tr>
                                     <td>
+                                        <small className="add-vacation-error-note">*All fields are requierd</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         <input className="input-class" type="text" onChange={this.setDestination} value={this.state.vacation.destination} />
-                                        <small className="add-vacation-error-note">Destination</small>
-                                        <small className="add-vacation-error-note">{this.state.errors.errorDestination}</small>
+                                        {this.renderDetailsArea("Destination",this.state.errors.errorDestination)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <textarea className="textarea-class" onChange={this.setDescription} value={this.state.vacation.description}></textarea>
-                                        <small className="add-vacation-error-note">Description</small>
-                                        <small className="add-vacation-error-note">{this.state.errors.errorDescription}</small>
+                                        {this.renderDetailsArea("Description",this.state.errors.errorDescription)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-class" type="number" onChange={this.setPrice} value={this.state.vacation.price} />
-                                        <small className="add-vacation-error-note">Price</small>
-                                        <small className="add-vacation-error-note">{this.state.errors.errorPrice}</small>
+                                        {this.renderDetailsArea("Price",this.state.errors.errorPrice)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-class" type="date" min={this.state.currentDate} max={this.state.vacation.end} onChange={this.setStart} value={this.state.vacation.start} />
-                                        <small className="add-vacation-error-note">Start</small>
-                                        <small className="add-vacation-error-note">{this.state.errors.errorStart}</small>
+                                        {this.renderDetailsArea("Start",this.state.errors.errorStart)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-class" type="date" min={this.state.vacation.start} onChange={this.setEnd} value={this.state.vacation.end} />
-                                        <small className="add-vacation-error-note">End</small>
-                                        <small className="add-vacation-error-note">{this.state.errors.errorEnd}</small>
+                                        {this.renderDetailsArea("End",this.state.errors.errorEnd)}
                                     </td>
                                 </tr>
                             </tbody>

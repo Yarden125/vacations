@@ -7,7 +7,8 @@ import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
 import { User } from "../../models/user";
 import socketService from "../../services/socket-service";
-import apiService from "../../services/api-service"
+import apiService from "../../services/api-service";
+import dispatchActionService from "../../services/dispatchAction-service"
 
 interface LoginPageState {
     login: Login;
@@ -110,8 +111,7 @@ export class LoginPage extends Component<any, LoginPageState>{
                 if (admin) {
                     this.socket.emit("admin-is-logged-in", true);
                     this.socket.on("admin-now-logged-in", admin => {
-                        const action = { type: ActionType.GetAdmin, payload: admin };
-                        store.dispatch(action);
+                        dispatchActionService.dispatchAction(ActionType.GetAdmin,admin);
                         this.props.history.push("/admin");
                     });
                 }
@@ -140,8 +140,7 @@ export class LoginPage extends Component<any, LoginPageState>{
                     // socketService.updateUserLoginStatus(userId, true);
                     this.socket.emit("user-is-logged-in", { loggedIn: true, userId: userId });
                     this.socket.on("user-now-logged-in", user => {
-                        const action = { type: ActionType.GetOneUser, payload: user };
-                        store.dispatch(action);
+                        dispatchActionService.dispatchAction(ActionType.GetOneUser,user);
                         this.props.history.push("/vacations/user/" + userId);
                     });
                 }

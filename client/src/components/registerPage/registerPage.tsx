@@ -6,6 +6,7 @@ import { Unsubscribe } from "redux";
 import { ActionType } from "../../redux/actionType";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
+import dispatchActionService from "../../services/dispatchAction-service";
 
 interface RegisterPageState {
     users: User[];
@@ -202,8 +203,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
                     const userId = result.id;
                     this.socket.emit("new-user-is-logged-in", { loggedIn: true, userId: userId });
                     this.socket.on("new-user-now-logged-in", user => {
-                        const action = { type: ActionType.GetOneUser, payload: user };
-                        store.dispatch(action);
+                        dispatchActionService.dispatchAction(ActionType.GetOneUser,user);
                         this.props.history.push("/vacations/user/" + result.id);
                     });
                 }

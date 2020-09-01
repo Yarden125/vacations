@@ -8,6 +8,7 @@ import { FollowedVacation } from "../../models/followedVacation";
 import { User } from "../../models/user";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
+import dispatchActionService from "../../services/dispatchAction-service";
 
 interface VacationsState {
     vacations: Vacation[];
@@ -91,36 +92,31 @@ export class Vacations extends Component<any, VacationsState>{
     public socketsFunctions(): void {
         // Immediate update when vacation id being followed
         this.socket.on("vacation-is-being-followed", followedObj => {
-            const action = { type: ActionType.AddFollowedVacation, payload: followedObj };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.AddFollowedVacation, followedObj);
             this.splitVacations();
         });
 
         // Immediate update when vacation is being unfollowed
         this.socket.on("vacation-is-being-unfollowed", unfollowedObj => {
-            const action = { type: ActionType.UnfollowVacation, payload: unfollowedObj };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.UnfollowVacation, unfollowedObj);
             this.splitVacations();
         });
 
         // Immediate update when vacation was added 
         this.socket.on("vacation-has-been-added", addedVacation => {
-            const action = { type: ActionType.AddVacation, payload: addedVacation };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.AddVacation, addedVacation);
             this.splitVacations();
         });
 
         // Immediate update when vacation was deleted 
         this.socket.on("vacation-was-deleted", id => {
-            const action = { type: ActionType.DeleteVacation, payload: id };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.DeleteVacation, id);
             this.splitVacations();
         });
 
         // Immediate update when vacation was updated 
         this.socket.on("vacation-has-been-updated", updatedVacation => {
-            const action = { type: ActionType.UpdateFullVacation, payload: updatedVacation };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.UpdateFullVacation, updatedVacation);
             this.splitVacations();
         });
     }
@@ -130,8 +126,7 @@ export class Vacations extends Component<any, VacationsState>{
         if (store.getState().vacations.length === 0) {
             apiService.getVacations()
                 .then(vacations => {
-                    const action = { type: ActionType.GetAllVacations, payload: vacations };
-                    store.dispatch(action);
+                    dispatchActionService.dispatchAction(ActionType.GetAllVacations, vacations);
                 })
                 .catch(err => alert(err.message));
         }
@@ -142,8 +137,7 @@ export class Vacations extends Component<any, VacationsState>{
         if (store.getState().followedVacations.length === 0) {
             apiService.getFollowedVacation(id)
                 .then(followedVacations => {
-                    const action = { type: ActionType.GetAllFollowedVacations, payload: followedVacations }
-                    store.dispatch(action);
+                    dispatchActionService.dispatchAction(ActionType.GetAllFollowedVacations, followedVacations);
                     this.splitVacations();
                 })
                 .catch(err => alert(err.message));
@@ -177,8 +171,7 @@ export class Vacations extends Component<any, VacationsState>{
     public getSpecificUser(id: number): void {
         apiService.getUser(id)
             .then(username => {
-                const action = { type: ActionType.GetOneUser, payload: username }
-                store.dispatch(action);
+                dispatchActionService.dispatchAction(ActionType.GetOneUser, username);
             })
             .catch(err => alert(err.message));
     }

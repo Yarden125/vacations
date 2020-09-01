@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Admin } from "../../models/admin";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
+import dispatchActionService from "../../services/dispatchAction-service"
 
 interface AdminPageState {
     vacations: Vacation[];
@@ -71,8 +72,7 @@ export class AdminPage extends Component<any, AdminPageState>{
         if (store.getState().admin.length === 0) {
             apiService.getAdmin()
                 .then(admin => {
-                    const action = { type: ActionType.GetAdmin, payload: admin };
-                    store.dispatch(action);
+                    dispatchActionService.dispatchAction(ActionType.GetAdmin, admin);
                 })
                 .catch(err => alert(err.message));
         }
@@ -85,20 +85,17 @@ export class AdminPage extends Component<any, AdminPageState>{
 
         // Immediate update when vacation was deleted
         this.socket.on("vacation-was-deleted", id => {
-            const action = { type: ActionType.DeleteVacation, payload: id };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.DeleteVacation, id);
         });
 
         // Immediate update when vacation was added
         this.socket.on("vacation-has-been-added", addedVacation => {
-            const action = { type: ActionType.AddVacation, payload: addedVacation };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.AddVacation, addedVacation);
         });
 
         // Immediate update when vacation was updated
         this.socket.on("vacation-has-been-updated", updatedVacation => {
-            const action = { type: ActionType.UpdateFullVacation, payload: updatedVacation };
-            store.dispatch(action);
+            dispatchActionService.dispatchAction(ActionType.UpdateFullVacation, updatedVacation);
         });
     }
 
@@ -107,8 +104,7 @@ export class AdminPage extends Component<any, AdminPageState>{
         if (store.getState().vacations.length === 0) {
             apiService.getVacations()
                 .then(vacations => {
-                    const action = { type: ActionType.GetAllVacations, payload: vacations };
-                    store.dispatch(action);
+                    dispatchActionService.dispatchAction(ActionType.GetAllVacations, vacations);
                 })
                 .catch(err => alert(err.message));
         }

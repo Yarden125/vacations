@@ -27,6 +27,7 @@
     border-radius: 4px;
     box-shadow: 1px 1px 3px rgb(119, 31, 82);
     margin-top: 5px;
+    display: block;
 }
 
 /* texteara box design */
@@ -37,6 +38,7 @@
     box-shadow: 1px 1px 3px rgb(119, 31, 82);
     margin-top: 5px;
     margin-bottom: 0;
+    display: block;
 }
 
 /* Update-Button design when enabled: */
@@ -75,14 +77,20 @@
 /* Error note design */
 .update-vacation .update-vacation-error-note{
     text-align: left;
-    display: block;
+    display:block;
     color:white;
     text-shadow: 1px 1px 3px rgb(85, 19, 57);
-    padding-left: 7px;
     margin:2px;
     margin:auto;
-    height: 12px;
 }
+
+/* .update-vacation .heading{
+    text-align: center;
+    color:white;
+    text-shadow: 1px 1px 3px rgb(85, 19, 57);
+    margin:2px;
+    margin:auto;
+} */
 
 /* Doesn't display the original type="file" design */
 .update-vacation [type="file"]{
