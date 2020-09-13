@@ -1,6 +1,5 @@
 const express = require("express");
 const usersLogic = require("../bll/users-logic");
-// const { userLoggedInOrOut } = require("../bll/users-logic");
 const router = express.Router();
 
 // router to get user's details

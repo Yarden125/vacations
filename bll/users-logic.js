@@ -15,7 +15,6 @@ async function getUserDetailsByID(id) {
     const users = await dal.execute(sql);
     users[0].id = id;
     return users[0];
-    // return users[0].username;
 }
 
 // Add user:
@@ -79,7 +78,6 @@ module.exports = {
     isUsernameExists,
     checkLogin,
     getUserDetails,
-    // getUserUsername,
     userLoggedInOrOut,
     isUserLoggedIn,
     getUserDetailsByID

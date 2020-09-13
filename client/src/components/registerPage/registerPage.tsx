@@ -56,13 +56,6 @@ export class RegisterPage extends Component<any, RegisterPageState>{
     public setFirstName = (e: any): void => {
         const firstName = e.target.value;
         let errorMessage = validationService.validateText(firstName, "first name");
-        // let errorMessage = "";
-        // if (firstName === "") {
-        //     errorMessage = "Missing first name";
-        // }
-        // if (firstName.includes("'")) {
-        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        // }
         const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
         newUser.firstName = firstName;
@@ -74,13 +67,6 @@ export class RegisterPage extends Component<any, RegisterPageState>{
     public setLastName = (e: any): void => {
         const lastName = e.target.value;
         let errorMessage = validationService.validateText(lastName, "last name");
-        // let errorMessage = "";
-        // if (lastName === "") {
-        //     errorMessage = "Missing last name"
-        // }
-        // if (lastName.includes("'")) {
-        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        // }
         const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
         newUser.lastName = lastName;
@@ -91,43 +77,22 @@ export class RegisterPage extends Component<any, RegisterPageState>{
     // Getting the input username from user and saving it in the state
     public setUsername = (e: any): void => {
         const username = e.target.value;
-        // let errorMessage = "";
         const newUser = { ...this.state.newUser };
         newUser.username = username;
         this.setState({ newUser });
         let errorMessage = validationService.validateRegistration(username, "username", 4);
-        // if (username === "") {
-        //     errorMessage = "Missing username"
-        // }
         if (username === "Admin") {
             errorMessage = "Invalid username"
         }
-        // if (username.length < 4) {
-        //     errorMessage = "Username must be at least 4 digits"
-        // }
-        // if (username.includes("'")) {
-        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        // }
         const errors = { ...this.state.errors };
         errors.usernameError = errorMessage;
         this.setState({ errors });
-
     };
 
     // Getting the input password from user and saving it in the state
     public setPassword = (e: any): void => {
         const password = e.target.value;
         let errorMessage = validationService.validateRegistration(password, "password", 4);
-        // let errorMessage = "";
-        // if (password === "") {
-        //     errorMessage = "Missing password"
-        // }
-        // if (password.length < 4) {
-        //     errorMessage = "Password must be at least 4 digits"
-        // }
-        // if (password.includes("'")) {
-        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        // }
         const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
         newUser.password = password;

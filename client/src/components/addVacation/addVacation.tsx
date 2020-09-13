@@ -103,13 +103,6 @@ export class AddVacation extends Component<any, AddVacationState>{
     public setPrice = (e: any): void => {
         const price = +e.target.value;
         let errorMessage = validationService.validatePrice(price);
-        // let errorMessage = "";
-        // if (price === null) {
-        //     errorMessage = "Missing price";
-        // }
-        // if (price <= 0) {
-        //     errorMessage = "Price must be more than zero";
-        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.price = price;
@@ -121,10 +114,6 @@ export class AddVacation extends Component<any, AddVacationState>{
     public setStart = (e: any): void => {
         const start = e.target.value;
         let errorMessage = validationService.validateInput(start, "start date");
-        // let errorMessage = "";
-        // if (start === "") {
-        //     errorMessage = "Missing start date";
-        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.start = start;
@@ -136,10 +125,6 @@ export class AddVacation extends Component<any, AddVacationState>{
     public setEnd = (e: any): void => {
         const end = e.target.value;
         let errorMessage = validationService.validateInput(end, "end date");
-        // let errorMessage = "";
-        // if (end === "") {
-        //     errorMessage = "Missing end date";
-        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.end = end;

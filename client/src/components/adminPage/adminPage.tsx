@@ -119,7 +119,6 @@ export class AdminPage extends Component<any, AdminPageState>{
 
     public logout = (): void => {
         this.socket.emit("admin-is-logging-out", false);
-        // apiService.logoutAdmin(JSON.stringify(false));
         dispatchActionService.dispatchAction(ActionType.ResetState, null);
         this.props.history.push("/login");
     }
@@ -182,17 +181,6 @@ export class AdminPage extends Component<any, AdminPageState>{
     // Formatting the date:
     private dateFormat(date: string): string {
         return dateService.formatDate(date);
-        // const d = new Date(date);
-        // let day: any = d.getDate();
-        // let month: any = (d.getMonth() + 1);
-        // const year = d.getFullYear();
-        // if (day < 10) {
-        //     day = "0" + day;
-        // }
-        // if (month < 10) {
-        //     month = "0" + month;
-        // }
-        // return day + "/" + month + "/" + year;
     }
 
     // Open Modal function

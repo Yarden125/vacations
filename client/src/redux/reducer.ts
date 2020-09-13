@@ -10,7 +10,7 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
     const newAppState = { ...oldAppState };
 
     switch (action.type) {
-        // Action type - Reset the state:
+        // Action type- Reset the state
         case ActionType.ResetState:
             newAppState.vacations = [];
             newAppState.user = null;

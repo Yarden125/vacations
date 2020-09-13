@@ -60,10 +60,6 @@ export class LoginPage extends Component<any, LoginPageState>{
     public setUsername = (e: any): void => {
         const currentUsername = e.target.value;
         let errorMessage = validationService.validateInput(currentUsername, "username");
-        // let errorMessage = "";
-        // if (currentUsername === "") {
-        //     errorMessage = "Mssing username";
-        // }
         const login = { ...this.state.login };
         const errors = { ...this.state.errors };
         login.username = currentUsername;
@@ -75,10 +71,6 @@ export class LoginPage extends Component<any, LoginPageState>{
     public setPassword = (e: any): void => {
         const currentPassword = e.target.value;
         let errorMessage = validationService.validateInput(currentPassword, "password");
-        // let errorMessage = "";
-        // if (currentPassword === "") {
-        //     errorMessage = "Missing password";
-        // }
         const login = { ...this.state.login };
         const errors = { ...this.state.errors }; 
         login.password = currentPassword;
@@ -131,6 +123,7 @@ export class LoginPage extends Component<any, LoginPageState>{
         apiService.loginUser(JSON.stringify(this.state.login))
             .then(result => {
                 if(result.checkedLogin){
+                    // If details are correct - would login to the user:
                     const userId = result.userDetails.id;
                     dispatchActionService.dispatchAction(ActionType.GetOneUser, result.userDetails);
                     this.props.history.push("/vacations/user/" + userId);
@@ -143,6 +136,7 @@ export class LoginPage extends Component<any, LoginPageState>{
             .catch(err => alert(err.message));
     }
 
+    // Deal with incorrect login:
     public dealWithIncorrectLogin():void{
         let errorMessage = `Username or password don't exist`;
         const errors = { ...this.state.errors };

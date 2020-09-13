@@ -79,7 +79,7 @@ export class Vacations extends Component<any, VacationsState>{
             .catch(err => alert(err.message));
     }
 
-    // Function that gets the user's page
+    // Gets the user's page
     public getUserPage(): void {
         this.getAllVacations();
         const id = +this.props.match.params.userID;
@@ -140,7 +140,7 @@ export class Vacations extends Component<any, VacationsState>{
         }
     }
 
-    // Get all followed vacations by this user
+    // Get all followed vacations by user id
     public getAllFollowedVacations(id: number): void {
         if (store.getState().followedVacations.length === 0) {
             apiService.getFollowedVacation(id)
@@ -189,13 +189,14 @@ export class Vacations extends Component<any, VacationsState>{
         this.unsubscribeStore();
     }
 
+    // logout the user and go to login page
     public logout = (): void =>{
         this.socket.emit("user-is-logging-out", { loggedIn: false, userId: this.state.currentUserID });
-        // apiService.logoutUser(JSON.stringify({ loggedIn: false, userId: this.state.currentUserID }));
         dispatchActionService.dispatchAction(ActionType.ResetState, null);
         this.props.history.push("/login");
     }
 
+    // Vacation card render
     public renderVacationCard(v: any, startClassName: string, checkboxClassName: string): JSX.Element {
         return (
             <>
@@ -276,17 +277,5 @@ export class Vacations extends Component<any, VacationsState>{
     // Changing the date format
     private dateFormat(date: string): string {
         return dateService.formatDate(date);
-
-        // const d = new Date(date);
-        // let day: any = d.getDate();
-        // let month: any = (d.getMonth() + 1);
-        // const year = d.getFullYear();
-        // if (day < 10) {
-        //     day = "0" + day;
-        // }
-        // if (month < 10) {
-        //     month = "0" + month;
-        // }
-        // return day + "/" + month + "/" + year;
     }
 }
