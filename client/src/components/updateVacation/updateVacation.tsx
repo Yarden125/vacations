@@ -4,6 +4,7 @@ import { Vacation } from "../../models/vacation";
 import { Heading } from "../heading/heading";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
+import dateService from "../../services/date-service";
 
 interface UpdateVacationState {
     vacationToUpdate: Vacation;
@@ -57,11 +58,6 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.getDate();
     }
 
-    // will disconnect  and return to admin page a moment before the component destroys itself
-    public componentWillUnmount(): void {
-        this.socket.emit("admin-is-logging-out", true);
-    }
-
     // Getting the input destination from the admin and saving it in the state
     public setDestination = (e: any): void => {
         const destination = e.target.value;
@@ -112,6 +108,9 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         if (price === null) {
             errorMessage = "Missing price";
         }
+        if (price <= 0) {
+            errorMessage = "Price must be more than zero";
+        }
         const vacationToUpdate = { ...this.state.vacationToUpdate };
         const errors = { ...this.state.errors };
         vacationToUpdate.price = price;
@@ -149,11 +148,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
 
     // Get current date:
     public getDate(): void {
-        let today = new Date();
-        let dd = String(today.getDate());
-        let mm = String(today.getMonth() + 1);
-        let yyyy = today.getFullYear();
-        const currentDate = yyyy + "-" + mm + "-" + dd;
+        const currentDate = dateService.getTheDate();
         this.setState({ currentDate });
     }
 
@@ -171,12 +166,12 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
             this.state.vacationToUpdate.end !== "";
     }
 
-     // Text and Error text function
-     public renderDetailsArea(text,error){
+    // Text and Error text function
+    public renderDetailsArea(text: string, error: string): JSX.Element {
         return (
             <>
-              <small className="update-vacation-error-note">{text}</small>
-              <small className="update-vacation-error-note">{error}</small>
+                <small className="update-vacation-error-note">{text}</small>
+                <small className="update-vacation-error-note">{error}</small>
             </>
         );
     }
@@ -202,31 +197,31 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="text" onChange={this.setDestination} value={this.state.vacationToUpdate.destination} />
-                                        {this.renderDetailsArea("Destination",this.state.errors.errorDestination )}
+                                        {this.renderDetailsArea("Destination", this.state.errors.errorDestination)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <textarea className="textarea-update-vacation" onChange={this.setDescription} value={this.state.vacationToUpdate.description}></textarea>
-                                        {this.renderDetailsArea("Description",this.state.errors.errorDescription )}
+                                        {this.renderDetailsArea("Description", this.state.errors.errorDescription)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="number" onChange={this.setPrice} value={this.state.vacationToUpdate.price} />
-                                        {this.renderDetailsArea("Price",this.state.errors.errorPrice )}
+                                        {this.renderDetailsArea("Price", this.state.errors.errorPrice)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="date" min={this.state.currentDate} max={this.state.vacationToUpdate.end} onChange={this.setStart} value={this.state.vacationToUpdate.start} />
-                                        {this.renderDetailsArea("Start",this.state.errors.errorStart )}
+                                        {this.renderDetailsArea("Start", this.state.errors.errorStart)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-update-vacation" type="date" min={this.state.vacationToUpdate.start} onChange={this.setEnd} value={this.state.vacationToUpdate.end} />
-                                        {this.renderDetailsArea("End",this.state.errors.errorEnd )}
+                                        {this.renderDetailsArea("End", this.state.errors.errorEnd)}
                                     </td>
                                 </tr>
                             </tbody>

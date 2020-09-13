@@ -1,13 +1,14 @@
 const express = require("express");
 const usersLogic = require("../bll/users-logic");
+// const { userLoggedInOrOut } = require("../bll/users-logic");
 const router = express.Router();
 
-// router to get user's username
-router.get("/username/:id", async (request, response) => {
+// router to get user's details
+router.get("/userDetails/:id", async (request, response) => {
     try {
         const id = +request.params.id;
-        const user = await usersLogic.getUserUsername(id);
-        response.json(user);
+        const userDetails = await usersLogic.getUserDetailsByID(id);
+        response.json(userDetails);
     }
     catch (err) {
         response.status(500).json(err.message);
@@ -56,6 +57,8 @@ router.post("/register", async (request, response) => {
         }
         if (!usernameExist) {
             const addedUser = await usersLogic.addUser(user);
+            console.log("addedUser : ", addedUser);
+            await usersLogic.userLoggedInOrOut({ loggedIn: true, userId: addedUser.id });
             response.status(201).json(addedUser);
         }
         else {
@@ -72,8 +75,16 @@ router.post("/login", async (request, response) => {
     try {
         const loginInfo = request.body;
         const checkedLogin = await usersLogic.checkLogin(loginInfo.username, loginInfo.password);
-        const userDetails = await usersLogic.getUserId(loginInfo.username, loginInfo.password);
-        response.json({ checkedLogin: checkedLogin, userDetails: userDetails });
+        if(checkedLogin){
+            const userDetails = await usersLogic.getUserDetails(loginInfo.username, loginInfo.password);
+            const obj = {loggedIn:true, userId: userDetails[0].id};
+            await usersLogic.userLoggedInOrOut(obj);
+            response.json({userDetails: userDetails[0], checkedLogin:checkedLogin});
+        }
+        else{
+            response.json(checkedLogin); 
+        }
+        
     }
     catch (err) {
         response.status(500).json(err.message);
@@ -91,5 +102,16 @@ router.get("/loggedIn/:id", async (request, response) => {
         response.status(500).json(err.message);
     }
 });
+
+// router for logging out
+// router.patch("/logout", async (request, response)=>{
+//     try{
+//         const obj = request.body;
+//         await usersLogic.userLoggedInOrOut(obj);
+//     }
+//     catch(err){
+//         response.status(500).json(err.message); 
+//     }
+// });
 
 module.exports = router;

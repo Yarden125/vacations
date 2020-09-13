@@ -9,12 +9,14 @@ import { User } from "../../models/user";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
 import dispatchActionService from "../../services/dispatchAction-service";
+import Button from 'react-bootstrap/Button';
+import dateService from "../../services/date-service";
 
 interface VacationsState {
     vacations: Vacation[];
     followedVacation: FollowedVacation;
     followedVacations: FollowedVacation[];
-    users: User[];
+    user: User;
     currentUserID: number;
     userUsername: string;
     welcomeUser: string;
@@ -37,7 +39,7 @@ export class Vacations extends Component<any, VacationsState>{
             vacations: store.getState().vacations,
             followedVacation: new FollowedVacation(),
             followedVacations: store.getState().followedVacations,
-            users: store.getState().users,
+            user: store.getState().user,
             welcomeUser: "",
             currentUserID: 0,
             userUsername: "",
@@ -45,28 +47,33 @@ export class Vacations extends Component<any, VacationsState>{
             myVacations: [],
             restOfVacations: [],
         };
-        this.unsubscribeStore = store.subscribe(() =>
-            this.setState({ vacations: store.getState().vacations, users: store.getState().users, followedVacations: store.getState().followedVacations }));
     }
 
     // When the component builds itself it will first check if the user is logged in:
     public componentDidMount(): void {
+        if (!this.state.user) {
+            const id = +this.props.match.params.userID;
+            this.isUserLoggedIn();
+            apiService.getTheUser(id);
+        }
+
+        this.unsubscribeStore = store.subscribe(() =>
+            this.setState({ vacations: store.getState().vacations, user: store.getState().user, followedVacations: store.getState().followedVacations }));
+
         this.isUserLoggedIn();
     }
 
     // checks if the user is logged in:
     public isUserLoggedIn(): void {
         const id = +this.props.match.params.userID;
-        apiService.isUserLoggedIn(id)
+        apiService.isTheUserLoggedIn(id)
             .then(result => {
                 if (result) {
                     // If logged in- getUserPage
                     this.getUserPage();
                 }
                 else {
-                    // If not logged in - destroys component and go to login page
-                    this.componentWillUnmount()
-                    this.props.history.push("/login");
+                    this.logout();
                 }
             })
             .catch(err => alert(err.message));
@@ -76,20 +83,21 @@ export class Vacations extends Component<any, VacationsState>{
     public getUserPage(): void {
         this.getAllVacations();
         const id = +this.props.match.params.userID;
-        const currentUserID = id;
-        this.setState({ currentUserID });
-        this.getAllFollowedVacations(id);
-        if (isNaN(id)) {
-            this.props.history.push("/page404");
-        }
-        else {
-            this.getSpecificUser(id);
-        }
-        this.socketsFunctions();
+            const currentUserID = id;
+            this.setState({ currentUserID });
+            this.getAllFollowedVacations(id);
+            if (isNaN(id)) {
+                this.props.history.push("/page404");
+            }
+            if(!this.state.user){
+                this.getSpecificUser(id);
+            }
+            this.socketsFunctions();
     }
 
     // Sockets functions:
     public socketsFunctions(): void {
+
         // Immediate update when vacation id being followed
         this.socket.on("vacation-is-being-followed", followedObj => {
             dispatchActionService.dispatchAction(ActionType.AddFollowedVacation, followedObj);
@@ -169,64 +177,66 @@ export class Vacations extends Component<any, VacationsState>{
 
     // Get the specific user from API
     public getSpecificUser(id: number): void {
-        apiService.getUser(id)
-            .then(username => {
-                dispatchActionService.dispatchAction(ActionType.GetOneUser, username);
+        apiService.getTheUser(id)
+            .then(result => {
+                dispatchActionService.dispatchAction(ActionType.GetOneUser, result);
             })
             .catch(err => alert(err.message));
     }
 
     // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
     public componentWillUnmount(): void {
-        this.socket.emit("user-is-logging-out", { loggedIn: false, userId: this.state.currentUserID });
         this.unsubscribeStore();
+    }
+
+    public logout = (): void =>{
+        this.socket.emit("user-is-logging-out", { loggedIn: false, userId: this.state.currentUserID });
+        // apiService.logoutUser(JSON.stringify({ loggedIn: false, userId: this.state.currentUserID }));
+        dispatchActionService.dispatchAction(ActionType.ResetState, null);
+        this.props.history.push("/login");
+    }
+
+    public renderVacationCard(v: any, startClassName: string, checkboxClassName: string): JSX.Element {
+        return (
+            <>
+                <div className="vacations-container">
+                    <label className={startClassName}>
+                        <input type="checkbox" defaultChecked={v.followed} className={checkboxClassName}
+                            onChange={(event) => { this.isVacationChecked(v.id, event) }}></input>
+                    </label>
+                    <div className="v-destination-p">{v.destination}</div>
+                    <div className="v-image">
+                        <img src={`http://localhost:3001/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
+                    </div>
+                    <div className="v-description">
+                        <p className="vacation-details-class-description">{v.description}</p>
+                        <p className="vacation-details-class">{v.price + "$"}</p>
+                        <p className="vacation-details-class">{this.dateFormat(v.start) + "-" + this.dateFormat(v.end)}</p>
+                    </div>
+                </div>
+            </>
+        );
     }
 
     // The component's HTML that is being rendered
     public render(): JSX.Element {
         return (
             <div className="vacations-page">
-                <p className="welcome-user">Hello {this.state.users}</p>
+                <Button onClick={this.logout} variant="link" className="logout-button">Logout</Button>
+                <p className="welcome-user">Hello {this.state.user ? this.state.user.username : ""}</p>
                 <br />
+                
                 {/* All the Followed vacations */}
                 {this.state.myVacations.map(v =>
                     <div key={v.id} className="vacation-container-top">
-                        <div className="vacations-container">
-                            <label className="yellow-star">
-                                <input type="checkbox" defaultChecked={v.followed} className="follow-input"
-                                    onChange={(event) => { this.isVacationChecked(v.id, event) }}></input>
-                            </label>
-                            <div className="v-destination-p">{v.destination}</div>
-                            <div className="v-image">
-                                <img src={`http://localhost:3001/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
-                            </div>
-                            <div className="v-description">
-                                <p className="vacation-details-class-description">{v.description}</p>
-                                <p className="vacation-details-class">{v.price + "$"}</p>
-                                <p className="vacation-details-class">{this.dateFormat(v.start) + "-" + this.dateFormat(v.end)}</p>
-                            </div>
-                        </div>
+                        {this.renderVacationCard(v, "yellow-star", "follow-input")}
                     </div>
                 )}
 
-                {/* The rest of the vacations that aren't being followed  */}
+                {/* All unfollowed vacatins  */}
                 {this.state.restOfVacations.map(v =>
                     <div key={v.id} className="vacation-container-top">
-                        <div className="vacations-container">
-                            <label className="empty-star">
-                                <input type="checkbox" defaultChecked={v.followed} className="unfollow-input"
-                                    onChange={(event) => { this.isVacationChecked(v.id, event) }}></input>
-                            </label>
-                            <div className="v-destination-p">{v.destination}</div>
-                            <div className="v-image">
-                                <img src={`http://localhost:3001/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
-                            </div>
-                            <div className="v-description">
-                                <p className="vacation-details-class-description">{v.description}</p>
-                                <p className="vacation-details-class">{v.price + "$"}</p>
-                                <p className="vacation-details-class">{this.dateFormat(v.start) + "-" + this.dateFormat(v.end)}</p>
-                            </div>
-                        </div>
+                        {this.renderVacationCard(v, "empty-star", "unfollow-input")}
                     </div>
                 )}
             </div>
@@ -265,16 +275,18 @@ export class Vacations extends Component<any, VacationsState>{
 
     // Changing the date format
     private dateFormat(date: string): string {
-        const d = new Date(date);
-        let day: any = d.getDate();
-        let month: any = (d.getMonth() + 1);
-        const year = d.getFullYear();
-        if (day < 10) {
-            day = "0" + day;
-        }
-        if (month < 10) {
-            month = "0" + month;
-        }
-        return day + "/" + month + "/" + year;
+        return dateService.formatDate(date);
+
+        // const d = new Date(date);
+        // let day: any = d.getDate();
+        // let month: any = (d.getMonth() + 1);
+        // const year = d.getFullYear();
+        // if (day < 10) {
+        //     day = "0" + day;
+        // }
+        // if (month < 10) {
+        //     month = "0" + month;
+        // }
+        // return day + "/" + month + "/" + year;
     }
 }

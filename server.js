@@ -93,27 +93,30 @@ const usersLogic = require("./bll/users-logic");
 
 // // on socket connection
 socketServer.sockets.on("connection", socket => {
-    console.log("connection established", socket);
+    // console.log("connection established", socket);
     // on admin-is-logged-in: log in Admin and get Admin details
-    socket.on("admin-is-logged-in", async obj => {
-        await adminLogic.adminLoggedInOrOut(obj);
-        const admin = await adminLogic.getAdminDetails();
-        socketServer.sockets.emit("admin-now-logged-in", admin);
-    });
+    // socket.on("admin-is-logged-in", async obj => {
+    //     await adminLogic.adminLoggedInOrOut(obj);
+    //     const admin = await adminLogic.getAdminDetails();
+    //     socketServer.sockets.emit("admin-now-logged-in", admin);
+    // });
 
     // on user-is-logged-in: log in user and get user's username
-    socket.on("user-is-logged-in", async obj => {
-        await usersLogic.userLoggedInOrOut(obj);
-        const user = await usersLogic.getUserUsername(obj.userId);
-        socketServer.sockets.emit("user-now-logged-in", user);
-    });
+    // socket.on("user-is-logged-in", async obj => {
+    //     await usersLogic.userLoggedInOrOut(obj);
+    //     const user = await usersLogic.getUserUsername(obj.userId);
+    //     console.log("obj: ", obj);
+    //     // socketServer.sockets.emit("user-now-logged-in", obj);
+    //     socketServer.sockets.emit("user-now-logged-in", user);
+    // });
 
     // on new-user-is-logged-in: when user register log in new user and get user's username 
-    socket.on("new-user-is-logged-in", async obj => {
-        await usersLogic.userLoggedInOrOut(obj);
-        const user = await usersLogic.getUserUsername(obj.userId);
-        socketServer.sockets.emit("new-user-now-logged-in", user);
-    });
+    // socket.on("new-user-is-logged-in", async obj => {
+    //     await usersLogic.userLoggedInOrOut(obj);
+    //     const user = await usersLogic.getUserUsername(obj.userId);
+    //     console.log("user: ", user);
+    //     socketServer.sockets.emit("new-user-now-logged-in", user);
+    // });
 
     // on admin-is-logging-out: update that admin is logged out
     socket.on("admin-is-logging-out", async obj => {

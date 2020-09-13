@@ -18,6 +18,18 @@ class ApiService{
         return response.json();
     }
 
+    // private async preformFetchPatch(url:string, bodyData:any){
+    //     const response = await fetch(url, {
+    //         method: "PATCH",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Accept": "application/json",
+    //         },
+    //         body: bodyData
+    //     })
+    //     return response.json();
+    // }
+
     private async preformAxiosPost(url:string, fd:FormData){
         return await axios.post(url, fd);
     }
@@ -26,20 +38,20 @@ class ApiService{
         return await axios.put(url, fd);
     }
 
-    async isAdminLoggedIn(){
+    async isTheAdminLoggedIn(){
         return this.preformeGet("http://localhost:3001/api/admin/loggedIn");
     }
 
-    async isUserLoggedIn(id:number){
+    async isTheUserLoggedIn(id:number){
         return this.preformeGet(`http://localhost:3001/api/users/loggedIn/${id}`);
     }
 
-    async getAdmin(){
+    async getTheAdmin(){
         return this.preformeGet("http://localhost:3001/api/admin");
     }
 
-    async getUser(id:number){
-        return this.preformeGet(`http://localhost:3001/api/users/username/${id}`);
+    async getTheUser(id:number){
+        return this.preformeGet(`http://localhost:3001/api/users/userDetails/${id}`);
     }
 
     async getVacations(){
@@ -58,9 +70,18 @@ class ApiService{
         return this.preformFetchPost("http://localhost:3001/api/users/login", body);
     }
 
+    // async logoutUser(body:any){
+    //     console.log("logout user body: ", body);
+    //     return this.preformFetchPatch(`http://localhost:3001/api/users/logout`, body);
+    // }
+
     async loginAdmin(body:any){
         return this.preformFetchPost("http://localhost:3001/api/admin", body);
     }
+
+    // async logoutAdmin(body:any){
+    //     return this.preformFetchPatch("http://localhost:3001/api/admin/logout", body);
+    // }
 
     async addUser(body:any){
         return this.preformFetchPost("http://localhost:3001/api/users/register", body);

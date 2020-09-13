@@ -14,7 +14,7 @@ interface LoginPageState {
     login: Login;
     adminCheckBox: boolean;
     admin: Admin[];
-    user: User[];
+    user: User;
     errors: {
         usernameError: string,
         passwordError: string,
@@ -26,7 +26,7 @@ export class LoginPage extends Component<any, LoginPageState>{
 
     // Get socket
     private socket = socketService.getSocket();
-    
+
     // function for subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
 
@@ -36,15 +36,18 @@ export class LoginPage extends Component<any, LoginPageState>{
             login: new Login(),
             adminCheckBox: false,
             admin: [],
-            user: [],
+            user: null,
             errors: {
                 usernameError: "*",
                 passwordError: "*",
                 loginError: ""
             }
         };
+    }
+
+    public componentDidMount():void{
         this.unsubscribeStore = store.subscribe(() =>
-            this.setState({ admin: store.getState().admin, user: store.getState().users }));
+            this.setState({ admin: store.getState().admin, user: store.getState().user }));
     }
 
     // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
@@ -96,69 +99,58 @@ export class LoginPage extends Component<any, LoginPageState>{
     // According to the checkbox - it will continue with logging in the user or the admin
     public checkLogin = (): void => {
         if (this.state.adminCheckBox === true) {
-            this.loginAdmin();
+            this.logInAdmin();
         }
         else if (this.state.adminCheckBox === false) {
-            this.loginUser();
+            this.logInUser();
         }
     };
 
     // If Admin was checked in the checkbox - get Admin API according to login details
-    public loginAdmin(): void {
+    public logInAdmin(): void {
         apiService.loginAdmin(JSON.stringify(this.state.login))
             .then(admin => {
-                // If details are correct - would log in to Admin:
+                // If details are correct - would login to Admin:
                 if (admin) {
-                    this.socket.emit("admin-is-logged-in", true);
-                    this.socket.on("admin-now-logged-in", admin => {
-                        dispatchActionService.dispatchAction(ActionType.GetAdmin,admin);
-                        this.props.history.push("/admin");
-                    });
+                    dispatchActionService.dispatchAction(ActionType.GetAdmin, admin);
+                    this.props.history.push("/admin");
                 }
                 else {
-                    // If details are incorrect - would stay in the login page:
-                    let errorMessage = "Username or password don't exist"
-                    const errors = { ...this.state.errors };
-                    errors.loginError = errorMessage;
-                    this.setState({ errors });
-                    this.props.history.push("/login");
-                    const password = "";
-                    const username = ""
-                    this.setState({ login: { ...this.state.login, password, username } });
+                    // If details are incorrect - would stay on the login page:
+                    this.dealWithIncorrectLogin();
                 }
             })
             .catch(err => alert(err.message));
     }
 
     // If Admin was not checked in the checkbox - get User API according to login details 
-    public loginUser(): void {
+    public logInUser(): void {
         apiService.loginUser(JSON.stringify(this.state.login))
             .then(result => {
-                // If details are correct - would log in to the specific user:
-                if (result.checkedLogin === true) {
-                    const userId = result.userDetails[0].id;
-                    // socketService.updateUserLoginStatus(userId, true);
-                    this.socket.emit("user-is-logged-in", { loggedIn: true, userId: userId });
-                    this.socket.on("user-now-logged-in", user => {
-                        dispatchActionService.dispatchAction(ActionType.GetOneUser,user);
-                        this.props.history.push("/vacations/user/" + userId);
-                    });
+                if(result.checkedLogin){
+                    const userId = result.userDetails.id;
+                    dispatchActionService.dispatchAction(ActionType.GetOneUser, result.userDetails);
+                    this.props.history.push("/vacations/user/" + userId);
                 }
-                else if (result) {
+                else {
                     // If details are incorrect - would stay in the login page:
-                    let errorMessage = `Username or password don't exist`;
-                    const errors = { ...this.state.errors };
-                    errors.loginError = errorMessage;
-                    errors.usernameError = "*";
-                    errors.passwordError = "*";
-                    this.setState({ errors });
-                    this.props.history.push("/login");
-                    const username = "";
-                    const password = "";
-                    this.setState({ login: { ...this.state.login, username, password } });
+                    this.dealWithIncorrectLogin();
                 }
             })
             .catch(err => alert(err.message));
+    }
+
+    public dealWithIncorrectLogin():void{
+        let errorMessage = `Username or password don't exist`;
+        const errors = { ...this.state.errors };
+        errors.loginError = errorMessage;
+        errors.usernameError = "*";
+        errors.passwordError = "*";
+        this.setState({ errors });
+        this.props.history.push("/login");
+        const username = "";
+        const password = "";
+        this.setState({ login: { ...this.state.login, username, password } });
     }
 
     // Checked if form is legal

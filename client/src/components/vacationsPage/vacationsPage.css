@@ -81,6 +81,17 @@
     filter: brightness(400%);
 }
 
+.vacations-page .logout-button{
+    text-decoration: underline;
+    color:white;
+    padding:0;
+}
+
+.vacations-page .logout-button:hover{
+    color:rgb(89, 142, 255);
+    padding:0;
+}
+
 /* Unfollow star design when hovering over it  */
 .vacations-page .empty-star:hover{
     position: absolute;

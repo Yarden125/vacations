@@ -8,7 +8,9 @@ import Modal from 'react-bootstrap/Modal';
 import { Admin } from "../../models/admin";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
-import dispatchActionService from "../../services/dispatchAction-service"
+import dispatchActionService from "../../services/dispatchAction-service";
+import Button from 'react-bootstrap/Button';
+import dateService from "../../services/date-service";
 
 interface AdminPageState {
     vacations: Vacation[];
@@ -41,18 +43,18 @@ export class AdminPage extends Component<any, AdminPageState>{
             currentDestination: "",
             currentImage: ""
         };
-        this.unsubscribeStore = store.subscribe(() =>
-            this.setState({ vacations: store.getState().vacations, admin: store.getState().admin }));
     }
 
     // When the component builds itself it will first check if Admin is logged in:
     public componentDidMount(): void {
+        this.unsubscribeStore = store.subscribe(() =>
+            this.setState({ vacations: store.getState().vacations, admin: store.getState().admin }));
         this.isAdminLoggedIn();
     }
 
     // checks if Admin is logged in:
     public isAdminLoggedIn(): void {
-        apiService.isAdminLoggedIn()
+        apiService.isTheAdminLoggedIn()
             .then(result => {
                 if (result) {
                     // If logged in- getAdmin
@@ -70,7 +72,7 @@ export class AdminPage extends Component<any, AdminPageState>{
     // get admin from API
     public getAdmin(): void {
         if (store.getState().admin.length === 0) {
-            apiService.getAdmin()
+            apiService.getTheAdmin()
                 .then(admin => {
                     dispatchActionService.dispatchAction(ActionType.GetAdmin, admin);
                 })
@@ -112,8 +114,14 @@ export class AdminPage extends Component<any, AdminPageState>{
 
     // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
     public componentWillUnmount(): void {
-        this.socket.emit("admin-is-logging-out", false);
         this.unsubscribeStore();
+    }
+
+    public logout = (): void => {
+        this.socket.emit("admin-is-logging-out", false);
+        // apiService.logoutAdmin(JSON.stringify(false));
+        dispatchActionService.dispatchAction(ActionType.ResetState, null);
+        this.props.history.push("/login");
     }
 
     // Add Vacation
@@ -130,6 +138,7 @@ export class AdminPage extends Component<any, AdminPageState>{
     public render(): JSX.Element {
         return (
             <div className="admin">
+                <Button onClick={this.logout} variant="link" className="logout-button">Logout</Button>
                 <p className="welcome-admin">Hello {this.state.admin}</p>
                 <br />
                 <button className="add-vacation-button" onClick={this.addVacation}>Add Vacation</button>
@@ -172,17 +181,18 @@ export class AdminPage extends Component<any, AdminPageState>{
 
     // Formatting the date:
     private dateFormat(date: string): string {
-        const d = new Date(date);
-        let day: any = d.getDate();
-        let month: any = (d.getMonth() + 1);
-        const year = d.getFullYear();
-        if (day < 10) {
-            day = "0" + day;
-        }
-        if (month < 10) {
-            month = "0" + month;
-        }
-        return day + "/" + month + "/" + year;
+        return dateService.formatDate(date);
+        // const d = new Date(date);
+        // let day: any = d.getDate();
+        // let month: any = (d.getMonth() + 1);
+        // const year = d.getFullYear();
+        // if (day < 10) {
+        //     day = "0" + day;
+        // }
+        // if (month < 10) {
+        //     month = "0" + month;
+        // }
+        // return day + "/" + month + "/" + year;
     }
 
     // Open Modal function

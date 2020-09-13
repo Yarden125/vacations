@@ -10,6 +10,14 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
     const newAppState = { ...oldAppState };
 
     switch (action.type) {
+        // Action type - Reset the state:
+        case ActionType.ResetState:
+            newAppState.vacations = [];
+            newAppState.user = null;
+            newAppState.followedVacations = [];
+            newAppState.admin = [];
+            break;
+
         // Action type - Get All Vacations:
         case ActionType.GetAllVacations:
             newAppState.vacations = action.payload;
@@ -80,7 +88,7 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
 
         // Action type - Get One User:
         case ActionType.GetOneUser:
-            newAppState.users = action.payload;
+            newAppState.user = action.payload;
             break;
 
         // Action type - Get Admin:

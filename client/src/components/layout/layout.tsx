@@ -8,7 +8,6 @@ import { RegisterPage } from "../registerPage/registerPage";
 import { Vacations } from "../vacationsPage/vacationsPage";
 import { UpdateVacation } from "../updateVacation/updateVacation";
 import { Page404 } from "../page404/page404";
-import { Logout } from "../logout/logout";
 import { Header } from "../header/header";
 import socketService from "../../services/socket-service";
 
@@ -26,9 +25,6 @@ export class Layout extends Component {
             <div className="layout">
                 <BrowserRouter>
                     <header>
-                        <div className="logout-wrapper">
-                            <Logout />
-                        </div>
                         <Header />
                     </header>
                     <main>

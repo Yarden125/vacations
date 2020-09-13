@@ -7,6 +7,9 @@ export enum ActionType {
     AddFollowedVacation,
     GetAllFollowedVacations,
     UnfollowVacation,
+    // GetOneUser,
+    // !!!!!!!!!!!!!GetOnlyOneUser
     GetOneUser,
     GetAdmin,
+    ResetState
 }

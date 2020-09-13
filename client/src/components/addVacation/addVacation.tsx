@@ -4,6 +4,7 @@ import { Vacation } from "../../models/vacation";
 import { Heading } from "../heading/heading";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
+import dateService from "../../services/date-service";
 
 interface AddVacationState {
     vacation: Vacation;
@@ -24,7 +25,6 @@ export class AddVacation extends Component<any, AddVacationState>{
 
     // Get socket:
     private socket = socketService.getSocket();
-    // private currentDate = this.getDate();
 
     public constructor(props: any) {
         super(props);
@@ -47,11 +47,6 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the current date when component builds itself
     public componentDidMount(): void {
         this.getDate();
-        // let date = this.getDate();
-        // this.setState({ currentDate:date });
-        // console.log(date);
-        // console.log(this.state.currentDate);
-        // console.log("componentDidMount");
     }
 
     // Getting the input destination from the admin and saving it in the state
@@ -76,7 +71,7 @@ export class AddVacation extends Component<any, AddVacationState>{
         const images = e.target.files[0];
         let errorMessage = "";
         const errors = { ...this.state.errors };
-        const chosenImage = e.target.files[0].name;
+        const chosenImage = images? e.target.files[0].name : "" ;
         if (images === undefined) {
             errorMessage = "Missing image";
         }
@@ -108,6 +103,9 @@ export class AddVacation extends Component<any, AddVacationState>{
         if (price === null) {
             errorMessage = "Missing price";
         }
+        if (price <= 0) {
+            errorMessage = "Price must be more than zero";
+        }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.price = price;
@@ -129,18 +127,6 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
-    // Get current date:
-    public getDate(): any {
-        let today = new Date();
-        let dd = String(today.getDate());
-        let mm = String(today.getMonth() + 1);
-        let yyyy = today.getFullYear();
-        // return yyyy + "-" + mm + "-" + dd;
-
-        const currentDate = yyyy + "-" + mm + "-" + dd;
-        this.setState({ currentDate });
-    }
-
     // Getting the input end date from the admin and saving it in the state
     public setEnd = (e: any): void => {
         const end = e.target.value;
@@ -155,6 +141,12 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
+     // Get current date:
+     public getDate(): any {
+        const currentDate = dateService.getTheDate();
+        this.setState({ currentDate });
+    }
+    
     // Checking if form legal:
     public isFormLegal(): boolean {
         return this.state.errors.errorDestination === "" &&
@@ -165,13 +157,15 @@ export class AddVacation extends Component<any, AddVacationState>{
             this.state.errors.errorImages === "" &&
             this.state.vacation.destination !== "" &&
             this.state.vacation.description !== "" &&
-            this.state.vacation.price !== null &&
+            this.state.vacation.price !== null && 
+            this.state.vacation.price !== 0 &&
             this.state.vacation.start !== "" &&
-            this.state.vacation.end !== "";
+            this.state.vacation.end !== "" &&
+            this.state.chosenImage !== "No image";
     }
 
     // Text and Error text function
-    public renderDetailsArea(text,error){
+    public renderDetailsArea(text:string,error:string): JSX.Element{
         return (
             <>
               <small className="add-vacation-error-note">{text}</small>

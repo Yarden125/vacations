@@ -1,10 +1,21 @@
 const dal = require("../dal/dal");
 
 // select username from Users with id
-async function getUserUsername(id) {
+// async function getUserUsername(id) {
+//     const sql = `SELECT username FROM Users WHERE userID=${id}`;
+//     const users = await dal.execute(sql);
+//     users[0].id = id;
+//     return users[0];
+//     // return users[0].username;
+// }
+
+// select username from Users with id
+async function getUserDetailsByID(id) {
     const sql = `SELECT username FROM Users WHERE userID=${id}`;
     const users = await dal.execute(sql);
-    return users[0].username;
+    users[0].id = id;
+    return users[0];
+    // return users[0].username;
 }
 
 // Add user:
@@ -33,13 +44,13 @@ async function checkLogin(username, password) {
 }
 
 // get the id of a specific user:
-async function getUserId(username, password) {
-    const sql = `SELECT userID as id FROM Users WHERE username='${username}' AND password='${password}'`;
-    const userID = await dal.execute(sql);
-    return userID;
+async function getUserDetails(username, password) {
+    const sql = `SELECT userID as id, username FROM Users WHERE username='${username}' AND password='${password}'`;
+    const userDetails = await dal.execute(sql);
+    return userDetails;
 }
 
-// logges in or out the user
+// logges the user in or out
 async function userLoggedInOrOut(obj) {
     if (obj.loggedIn === true) {
         obj.loggedIn = 1;
@@ -67,8 +78,9 @@ module.exports = {
     addUser,
     isUsernameExists,
     checkLogin,
-    getUserId,
-    getUserUsername,
+    getUserDetails,
+    // getUserUsername,
     userLoggedInOrOut,
     isUserLoggedIn,
+    getUserDetailsByID
 };

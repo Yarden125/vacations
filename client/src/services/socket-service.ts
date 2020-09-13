@@ -1,4 +1,6 @@
 import socketIOClient from "socket.io-client";
+// import { ActionType } from "../redux/actionType";
+// import dispatchActionService from "./dispatchAction-service";
 
 class SocketService {
   private isInitialized = false;
@@ -18,6 +20,12 @@ class SocketService {
     // }
     return this.socket;
   }
+
+  // public socketOn(msg:string, data:any, actionType:ActionType){
+  //   this.socket.on(msg, data => {
+  //     dispatchActionService.dispatchAction(actionType, data);
+  // });
+  // }
 }
 
 export default new SocketService();

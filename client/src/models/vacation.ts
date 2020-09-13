@@ -6,7 +6,7 @@ export class Vacation {
         public image: string = "",
         public start: string = "",
         public end: string = "",
-        public price: number = 0,
+        public price: number = 1,
         public followed: boolean = false,
     ) { }
 }

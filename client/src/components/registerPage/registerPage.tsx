@@ -9,8 +9,8 @@ import apiService from "../../services/api-service";
 import dispatchActionService from "../../services/dispatchAction-service";
 
 interface RegisterPageState {
-    users: User[];
     user: User;
+    newUser: User;
     errors: {
         firstNameError: string,
         lastNameError: string,
@@ -30,8 +30,8 @@ export class RegisterPage extends Component<any, RegisterPageState>{
     public constructor(props: any) {
         super(props);
         this.state = {
-            users: [],
-            user: new User(),
+            user: null,
+            newUser: new User(),
             errors: {
                 firstNameError: "*",
                 lastNameError: "*",
@@ -39,8 +39,11 @@ export class RegisterPage extends Component<any, RegisterPageState>{
                 passwordError: "*"
             }
         };
+    }
+
+    public componentDidMount(): void {
         this.unsubscribeStore = store.subscribe(() =>
-            this.setState({ users: store.getState().users }));
+            this.setState({ user: store.getState().user }));
     }
 
     // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
@@ -58,11 +61,11 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         if (firstName.includes("'")) {
             errorMessage = ` Apostrophe " ' " is a forbidden character!`;
         }
-        const user = { ...this.state.user };
+        const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
-        user.firstName = firstName;
+        newUser.firstName = firstName;
         errors.firstNameError = errorMessage;
-        this.setState({ user, errors });
+        this.setState({ newUser, errors });
     };
 
     // Getting the input last name from user and saving it in the state
@@ -75,20 +78,20 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         if (lastName.includes("'")) {
             errorMessage = ` Apostrophe " ' " is a forbidden character!`;
         }
-        const user = { ...this.state.user };
+        const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
-        user.lastName = lastName;
+        newUser.lastName = lastName;
         errors.lastNameError = errorMessage;
-        this.setState({ user, errors });
+        this.setState({ newUser, errors });
     };
 
     // Getting the input username from user and saving it in the state
     public setUsername = (e: any): void => {
         const username = e.target.value;
         let errorMessage = "";
-        const user = { ...this.state.user };
-        user.username = username;
-        this.setState({ user });
+        const newUser = { ...this.state.newUser };
+        newUser.username = username;
+        this.setState({ newUser });
 
         if (username === "") {
             errorMessage = "Missing username"
@@ -121,11 +124,11 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         if (password.includes("'")) {
             errorMessage = ` Apostrophe " ' " is a forbidden character!`;
         }
-        const user = { ...this.state.user };
+        const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
-        user.password = password;
+        newUser.password = password;
         errors.passwordError = errorMessage;
-        this.setState({ user, errors });
+        this.setState({ newUser, errors });
     };
 
     // Checks if form legal
@@ -149,29 +152,35 @@ export class RegisterPage extends Component<any, RegisterPageState>{
                     <table>
                         <tbody>
                             <tr>
-                                <td><input type="text" placeholder="*First Name" className="register-class"
-                                    onChange={this.setFirstName} value={this.state.user.firstName} />
+                                <td>
+                                    <small className="register-error-note">*All fields are requierd</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" placeholder="*First Name" className="register-class"
+                                           onChange={this.setFirstName} value={this.state.newUser.firstName} />
                                     <small className="register-error-note">{this.state.errors.firstNameError}</small>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <input type="text" placeholder="*Last Name" className="register-class"
-                                        onChange={this.setLastName} value={this.state.user.lastName} />
+                                           onChange={this.setLastName} value={this.state.newUser.lastName} />
                                     <small className="register-error-note">{this.state.errors.lastNameError}</small>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <input type="text" placeholder="*Username" className="register-class"
-                                        onChange={this.setUsername} value={this.state.user.username} />
+                                           onChange={this.setUsername} value={this.state.newUser.username} />
                                     <small className="register-error-note">{this.state.errors.usernameError}</small>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <input type="password" placeholder="*Password" className="register-class"
-                                        onChange={this.setPassword} value={this.state.user.password} />
+                                           onChange={this.setPassword} value={this.state.newUser.password} />
                                     <small className="register-error-note">{this.state.errors.passwordError}</small>
                                 </td>
                             </tr>
@@ -196,16 +205,11 @@ export class RegisterPage extends Component<any, RegisterPageState>{
 
     // Add user
     private addUser = (): void => {
-        apiService.addUser(JSON.stringify(this.state.user))
+        apiService.addUser(JSON.stringify(this.state.newUser))
             .then(result => {
                 if (result) {
-                    // If username doesn't exists - registen and login automatically to the new user's page
-                    const userId = result.id;
-                    this.socket.emit("new-user-is-logged-in", { loggedIn: true, userId: userId });
-                    this.socket.on("new-user-now-logged-in", user => {
-                        dispatchActionService.dispatchAction(ActionType.GetOneUser,user);
-                        this.props.history.push("/vacations/user/" + result.id);
-                    });
+                    dispatchActionService.dispatchAction(ActionType.GetOneUser, result);
+                    this.props.history.push("/vacations/user/" + result.id);
                 }
                 else {
                     // If username already exists - would ask the user to choose a different name :
@@ -217,7 +221,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
                     this.props.history.push("/register");
                     const username = "";
                     const password = "";
-                    this.setState({ user: { ...this.state.user, username, password } });
+                    this.setState({ newUser: { ...this.state.newUser, username, password } });
                 }
             })
             .catch(err => alert(err.message));
