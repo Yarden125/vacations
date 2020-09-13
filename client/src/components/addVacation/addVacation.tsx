@@ -5,6 +5,7 @@ import { Heading } from "../heading/heading";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
 import dateService from "../../services/date-service";
+import validationService from "../../services/validation-service";
 
 interface AddVacationState {
     vacation: Vacation;
@@ -52,13 +53,14 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input destination from the admin and saving it in the state
     public setDestination = (e: any): void => {
         const destination = e.target.value;
-        let errorMessage = "";
-        if (destination === "") {
-            errorMessage = "Missing destination";
-        }
-        if (destination.includes("'")) {
-            errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        }
+        let errorMessage = validationService.validateInput(destination, "destination");
+        // let errorMessage = "";
+        // if (destination === "") {
+        //     errorMessage = "Missing destination";
+        // }
+        // if (destination.includes("'")) {
+        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
+        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.destination = destination;
@@ -82,13 +84,14 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input description from the admin and saving it in the state
     public setDescription = (e: any): void => {
         const description = e.target.value;
-        let errorMessage = "";
-        if (description === "") {
-            errorMessage = " Missing description";
-        }
-        if (description.includes("'")) {
-            errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        }
+        let errorMessage = validationService.validateInput(description, "description");
+        // let errorMessage = "";
+        // if (description === "") {
+        //     errorMessage = " Missing description";
+        // }
+        // if (description.includes("'")) {
+        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
+        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.description = description;
@@ -99,13 +102,14 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input price from the admin and saving it in the state
     public setPrice = (e: any): void => {
         const price = +e.target.value;
-        let errorMessage = "";
-        if (price === null) {
-            errorMessage = "Missing price";
-        }
-        if (price <= 0) {
-            errorMessage = "Price must be more than zero";
-        }
+        let errorMessage = validationService.validatePrice(price);
+        // let errorMessage = "";
+        // if (price === null) {
+        //     errorMessage = "Missing price";
+        // }
+        // if (price <= 0) {
+        //     errorMessage = "Price must be more than zero";
+        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.price = price;
@@ -116,10 +120,11 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input start date from the admin and saving it in the state
     public setStart = (e: any): void => {
         const start = e.target.value;
-        let errorMessage = "";
-        if (start === "") {
-            errorMessage = "Missing start date";
-        }
+        let errorMessage = validationService.validateInput(start, "start date");
+        // let errorMessage = "";
+        // if (start === "") {
+        //     errorMessage = "Missing start date";
+        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.start = start;
@@ -130,10 +135,11 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input end date from the admin and saving it in the state
     public setEnd = (e: any): void => {
         const end = e.target.value;
-        let errorMessage = "";
-        if (end === "") {
-            errorMessage = "Missing end date";
-        }
+        let errorMessage = validationService.validateInput(end, "end date");
+        // let errorMessage = "";
+        // if (end === "") {
+        //     errorMessage = "Missing end date";
+        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.end = end;
@@ -146,7 +152,7 @@ export class AddVacation extends Component<any, AddVacationState>{
         const currentDate = dateService.getTheDate();
         this.setState({ currentDate });
     }
-    
+
     // Checking if form legal:
     public isFormLegal(): boolean {
         return this.state.errors.errorDestination === "" &&

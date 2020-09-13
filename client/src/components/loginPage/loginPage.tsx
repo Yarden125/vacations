@@ -9,6 +9,7 @@ import { User } from "../../models/user";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
 import dispatchActionService from "../../services/dispatchAction-service"
+import validationService from "../../services/validation-service";
 
 interface LoginPageState {
     login: Login;
@@ -58,12 +59,13 @@ export class LoginPage extends Component<any, LoginPageState>{
     // set Input username date from user/admin and saves it in the state
     public setUsername = (e: any): void => {
         const currentUsername = e.target.value;
-        let errorMessage = "";
+        let errorMessage = validationService.validateInput(currentUsername, "username");
+        // let errorMessage = "";
+        // if (currentUsername === "") {
+        //     errorMessage = "Mssing username";
+        // }
         const login = { ...this.state.login };
         const errors = { ...this.state.errors };
-        if (currentUsername === "") {
-            errorMessage = "Mssing username";
-        }
         login.username = currentUsername;
         errors.usernameError = errorMessage;
         this.setState({ login, errors });
@@ -72,12 +74,13 @@ export class LoginPage extends Component<any, LoginPageState>{
     // set Input password date from user/admin and saves it in the state
     public setPassword = (e: any): void => {
         const currentPassword = e.target.value;
-        let errorMessage = "";
+        let errorMessage = validationService.validateInput(currentPassword, "password");
+        // let errorMessage = "";
+        // if (currentPassword === "") {
+        //     errorMessage = "Missing password";
+        // }
         const login = { ...this.state.login };
-        const errors = { ...this.state.errors };
-        if (currentPassword === "") {
-            errorMessage = "Missing password";
-        }
+        const errors = { ...this.state.errors }; 
         login.password = currentPassword;
         errors.passwordError = errorMessage;
         this.setState({ login, errors });

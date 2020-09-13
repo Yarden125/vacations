@@ -7,6 +7,7 @@ import { ActionType } from "../../redux/actionType";
 import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
 import dispatchActionService from "../../services/dispatchAction-service";
+import validationService from "../../services/validation-service";
 
 interface RegisterPageState {
     user: User;
@@ -54,13 +55,14 @@ export class RegisterPage extends Component<any, RegisterPageState>{
     // Getting the input first name from user and saving it in the state
     public setFirstName = (e: any): void => {
         const firstName = e.target.value;
-        let errorMessage = "";
-        if (firstName === "") {
-            errorMessage = "Missing first name";
-        }
-        if (firstName.includes("'")) {
-            errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        }
+        let errorMessage = validationService.validateText(firstName, "first name");
+        // let errorMessage = "";
+        // if (firstName === "") {
+        //     errorMessage = "Missing first name";
+        // }
+        // if (firstName.includes("'")) {
+        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
+        // }
         const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
         newUser.firstName = firstName;
@@ -71,13 +73,15 @@ export class RegisterPage extends Component<any, RegisterPageState>{
     // Getting the input last name from user and saving it in the state
     public setLastName = (e: any): void => {
         const lastName = e.target.value;
-        let errorMessage = "";
-        if (lastName === "") {
-            errorMessage = "Missing last name"
-        }
-        if (lastName.includes("'")) {
-            errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        }
+        let errorMessage = validationService.validateText(lastName, "last name");
+
+        // let errorMessage = "";
+        // if (lastName === "") {
+        //     errorMessage = "Missing last name"
+        // }
+        // if (lastName.includes("'")) {
+        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
+        // }
         const newUser = { ...this.state.newUser };
         const errors = { ...this.state.errors };
         newUser.lastName = lastName;
