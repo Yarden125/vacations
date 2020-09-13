@@ -53,7 +53,7 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input destination from the admin and saving it in the state
     public setDestination = (e: any): void => {
         const destination = e.target.value;
-        let errorMessage = validationService.validateInput(destination, "destination");
+        let errorMessage = validationService.validateText(destination, "destination");
         // let errorMessage = "";
         // if (destination === "") {
         //     errorMessage = "Missing destination";
@@ -84,7 +84,7 @@ export class AddVacation extends Component<any, AddVacationState>{
     // Getting the input description from the admin and saving it in the state
     public setDescription = (e: any): void => {
         const description = e.target.value;
-        let errorMessage = validationService.validateInput(description, "description");
+        let errorMessage = validationService.validateText(description, "description");
         // let errorMessage = "";
         // if (description === "") {
         //     errorMessage = " Missing description";
