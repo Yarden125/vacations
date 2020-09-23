@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 
-// Create a comm line to MySQL Database: 
+// Create a communication line to MySQL Database: 
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",

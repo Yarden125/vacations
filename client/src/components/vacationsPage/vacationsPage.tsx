@@ -49,7 +49,7 @@ export class Vacations extends Component<any, VacationsState>{
         };
     }
 
-    // When the component builds itself it will first check if the user is logged in:
+    // Called immediately after a component is mounted - check if the user is logged in:
     public componentDidMount(): void {
         if (!this.state.user) {
             const id = +this.props.match.params.userID;
@@ -63,7 +63,12 @@ export class Vacations extends Component<any, VacationsState>{
         this.isUserLoggedIn();
     }
 
-    // checks if the user is logged in:
+    // The component will unsubscribe to updates from store immediately before the component is destroyed:
+    public componentWillUnmount(): void {
+        this.unsubscribeStore();
+    }
+
+    // Checks if the user is logged in:
     public isUserLoggedIn(): void {
         const id = +this.props.match.params.userID;
         apiService.isTheUserLoggedIn(id)
@@ -98,7 +103,7 @@ export class Vacations extends Component<any, VacationsState>{
     // Sockets functions:
     public socketsFunctions(): void {
 
-        // Immediate update when vacation id being followed
+        // Immediate update when vacation being followed
         this.socket.on("vacation-is-being-followed", followedObj => {
             dispatchActionService.dispatchAction(ActionType.AddFollowedVacation, followedObj);
             this.splitVacations();
@@ -116,20 +121,20 @@ export class Vacations extends Component<any, VacationsState>{
             this.splitVacations();
         });
 
-        // Immediate update when vacation was deleted 
-        this.socket.on("vacation-was-deleted", id => {
-            dispatchActionService.dispatchAction(ActionType.DeleteVacation, id);
-            this.splitVacations();
-        });
-
         // Immediate update when vacation was updated 
         this.socket.on("vacation-has-been-updated", updatedVacation => {
             dispatchActionService.dispatchAction(ActionType.UpdateFullVacation, updatedVacation);
             this.splitVacations();
         });
+
+        // Immediate update when vacation was deleted 
+        this.socket.on("vacation-was-deleted", id => {
+            dispatchActionService.dispatchAction(ActionType.DeleteVacation, id);
+            this.splitVacations();
+        });
     }
 
-    // Get all vacations from API
+    // Get all vacations
     public getAllVacations(): void {
         if (store.getState().vacations.length === 0) {
             apiService.getVacations()
@@ -175,7 +180,7 @@ export class Vacations extends Component<any, VacationsState>{
         this.setState({ myVacations: followed, restOfVacations: rest });
     }
 
-    // Get the specific user from API
+    // Get the specific user by id
     public getSpecificUser(id: number): void {
         apiService.getTheUser(id)
             .then(result => {
@@ -184,12 +189,7 @@ export class Vacations extends Component<any, VacationsState>{
             .catch(err => alert(err.message));
     }
 
-    // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
-    public componentWillUnmount(): void {
-        this.unsubscribeStore();
-    }
-
-    // logout the user and go to login page
+    // Logout the user and go to login page
     public logout = (): void =>{
         this.socket.emit("user-is-logging-out", { loggedIn: false, userId: this.state.currentUserID });
         dispatchActionService.dispatchAction(ActionType.ResetState, null);
@@ -227,14 +227,14 @@ export class Vacations extends Component<any, VacationsState>{
                 <p className="welcome-user">Hello {this.state.user ? this.state.user.username : ""}</p>
                 <br />
                 
-                {/* All the Followed vacations */}
+                {/* All Followed vacations */}
                 {this.state.myVacations.map(v =>
                     <div key={v.id} className="vacation-container-top">
                         {this.renderVacationCard(v, "yellow-star", "follow-input")}
                     </div>
                 )}
 
-                {/* All unfollowed vacatins  */}
+                {/* All unfollowed vacatins */}
                 {this.state.restOfVacations.map(v =>
                     <div key={v.id} className="vacation-container-top">
                         {this.renderVacationCard(v, "empty-star", "unfollow-input")}
@@ -244,7 +244,7 @@ export class Vacations extends Component<any, VacationsState>{
         );
     }
 
-    // Checkes if vacation is checked. "Checked" means followed, "not checked" means not followed
+    // Check if vacation is checked. "Checked" means followed, "not checked" means not followed
     public isVacationChecked = (id: number, e: any): void => {
         const userId = +this.props.match.params.userID;
         const checked = e.target.checked;

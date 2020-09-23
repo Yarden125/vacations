@@ -45,22 +45,15 @@ export class AddVacation extends Component<any, AddVacationState>{
         };
     }
 
-    // Getting the current date when component builds itself
+    // Getting the current date. Called immediately after a component is mounted
     public componentDidMount(): void {
         this.getDate();
     }
 
-    // Getting the input destination from the admin and saving it in the state
+    // Getting the destination input from the admin and saving it in the state
     public setDestination = (e: any): void => {
         const destination = e.target.value;
         let errorMessage = validationService.validateText(destination, "destination");
-        // let errorMessage = "";
-        // if (destination === "") {
-        //     errorMessage = "Missing destination";
-        // }
-        // if (destination.includes("'")) {
-        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.destination = destination;
@@ -68,12 +61,12 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
-    // Getting the input image from the admin and saving it in the state
+    // Getting the image input from the admin and saving it in the state
     public setImage = (e: any): void => {
         const images = e.target.files[0];
         let errorMessage = "";
         const errors = { ...this.state.errors };
-        const chosenImage = images? e.target.files[0].name : "" ;
+        const chosenImage = images ? e.target.files[0].name : "";
         if (images === undefined) {
             errorMessage = "Missing image";
         }
@@ -81,17 +74,10 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ images, errors, chosenImage });
     };
 
-    // Getting the input description from the admin and saving it in the state
+    // Getting the description input from the admin and saving it in the state
     public setDescription = (e: any): void => {
         const description = e.target.value;
         let errorMessage = validationService.validateText(description, "description");
-        // let errorMessage = "";
-        // if (description === "") {
-        //     errorMessage = " Missing description";
-        // }
-        // if (description.includes("'")) {
-        //     errorMessage = ` Apostrophe " ' " is a forbidden character!`;
-        // }
         const vacation = { ...this.state.vacation };
         const errors = { ...this.state.errors };
         vacation.description = description;
@@ -99,7 +85,7 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
-    // Getting the input price from the admin and saving it in the state
+    // Getting the price input from the admin and saving it in the state
     public setPrice = (e: any): void => {
         const price = +e.target.value;
         let errorMessage = validationService.validatePrice(price);
@@ -110,7 +96,7 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
-    // Getting the input start date from the admin and saving it in the state
+    // Getting the start date input from the admin and saving it in the state
     public setStart = (e: any): void => {
         const start = e.target.value;
         let errorMessage = validationService.validateInput(start, "start date");
@@ -121,7 +107,7 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
-    // Getting the input end date from the admin and saving it in the state
+    // Getting the end date input from the admin and saving it in the state
     public setEnd = (e: any): void => {
         const end = e.target.value;
         let errorMessage = validationService.validateInput(end, "end date");
@@ -132,8 +118,8 @@ export class AddVacation extends Component<any, AddVacationState>{
         this.setState({ vacation, errors });
     };
 
-     // Get current date:
-     public getDate(): any {
+    // Get current date:
+    public getDate(): any {
         const currentDate = dateService.getTheDate();
         this.setState({ currentDate });
     }
@@ -148,7 +134,7 @@ export class AddVacation extends Component<any, AddVacationState>{
             this.state.errors.errorImages === "" &&
             this.state.vacation.destination !== "" &&
             this.state.vacation.description !== "" &&
-            this.state.vacation.price !== null && 
+            this.state.vacation.price !== null &&
             this.state.vacation.price !== 0 &&
             this.state.vacation.start !== "" &&
             this.state.vacation.end !== "" &&
@@ -156,11 +142,11 @@ export class AddVacation extends Component<any, AddVacationState>{
     }
 
     // Text and Error text function
-    public renderDetailsArea(text:string,error:string): JSX.Element{
+    public renderDetailsArea(text: string, error: string): JSX.Element {
         return (
             <>
-              <small className="add-vacation-error-note">{text}</small>
-              <small className="add-vacation-error-note">{error}</small>
+                <small className="add-vacation-error-note">{text}</small>
+                <small className="add-vacation-error-note">{error}</small>
             </>
         );
     }
@@ -186,31 +172,31 @@ export class AddVacation extends Component<any, AddVacationState>{
                                 <tr>
                                     <td>
                                         <input className="input-class" type="text" onChange={this.setDestination} value={this.state.vacation.destination} />
-                                        {this.renderDetailsArea("Destination",this.state.errors.errorDestination)}
+                                        {this.renderDetailsArea("Destination", this.state.errors.errorDestination)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <textarea className="textarea-class" onChange={this.setDescription} value={this.state.vacation.description}></textarea>
-                                        {this.renderDetailsArea("Description",this.state.errors.errorDescription)}
+                                        {this.renderDetailsArea("Description", this.state.errors.errorDescription)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-class" type="number" onChange={this.setPrice} value={this.state.vacation.price} />
-                                        {this.renderDetailsArea("Price",this.state.errors.errorPrice)}
+                                        {this.renderDetailsArea("Price", this.state.errors.errorPrice)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-class" type="date" min={this.state.currentDate} max={this.state.vacation.end} onChange={this.setStart} value={this.state.vacation.start} />
-                                        {this.renderDetailsArea("Start",this.state.errors.errorStart)}
+                                        {this.renderDetailsArea("Start", this.state.errors.errorStart)}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <input className="input-class" type="date" min={this.state.vacation.start} onChange={this.setEnd} value={this.state.vacation.end} />
-                                        {this.renderDetailsArea("End",this.state.errors.errorEnd)}
+                                        {this.renderDetailsArea("End", this.state.errors.errorEnd)}
                                     </td>
                                 </tr>
                             </tbody>

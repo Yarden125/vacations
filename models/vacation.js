@@ -1,3 +1,4 @@
+// Vacation model
 class Vacation {
     constructor(id, description, destination, image, start, end, price) {
         this.id = id;

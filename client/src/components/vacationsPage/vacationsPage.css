@@ -81,17 +81,6 @@
     filter: brightness(400%);
 }
 
-.vacations-page .logout-button{
-    text-decoration: underline;
-    color:white;
-    padding:0;
-}
-
-.vacations-page .logout-button:hover{
-    color:rgb(89, 142, 255);
-    padding:0;
-}
-
 /* Unfollow star design when hovering over it  */
 .vacations-page .empty-star:hover{
     position: absolute;
@@ -106,7 +95,20 @@
     filter: brightness(400%);
 }
 
-/* vacation destination design */
+/* Logout button */
+.vacations-page .logout-button{
+    text-decoration: underline;
+    color:white;
+    padding:0;
+}
+
+/* Logout button - hovered */
+.vacations-page .logout-button:hover{
+    color:rgb(89, 142, 255);
+    padding:0;
+}
+
+/* Vacation destination design */
 .vacations-page .v-destination-p{
     margin:0;
     padding: 0;
@@ -117,18 +119,18 @@
     font-family: "vacations-destination-title";
 }
 
-/* customized font for vacation destination */
+/* Customized font for vacation destination */
 @font-face{
     src: url("/assets/fonts/PeachesForBreakfast-Regular.ttf");
     font-family: "vacations-destination-title";
 }
 
-/* vacation description div design */
+/* Vacation description div design */
 .vacations-page .v-description{
     height: 120px;
 }
 
-/* vacation price and dates design */
+/* Vacation price and dates design */
 .vacations-page .vacation-details-class{
     padding:0;
     margin:0;
@@ -138,7 +140,7 @@
     text-shadow: -1px -1px 2px rgb(37, 10, 35);  
 }
 
-/* vacation description design */
+/* Vacation description design */
 .vacations-page .vacation-details-class-description{
     height:46px;
     overflow: auto;
@@ -182,13 +184,13 @@
     font-family:"welcome-admin-title" ;
 }
 
-/* customized font for welcome-admin */
+/* Customized font for welcome-admin */
 @font-face{
     src: url("/assets/fonts/Sunday\ Holiday.ttf");
     font-family: "welcome-admin-title";
 }
 
-/* different design for welcome-user when screen size is under 768px */
+/* Different design for welcome-user when screen size is under 768px */
 @media screen and (max-width: 767px) {
     .welcome-user {
         font-size: 25px;

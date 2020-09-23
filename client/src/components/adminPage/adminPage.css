@@ -14,17 +14,6 @@
     margin:3px;
 }
 
-.admin .logout-button{
-    text-decoration: underline;
-    color:white;
-    padding:0;
-}
-
-.admin .logout-button:hover{
-    color:rgb(89, 142, 255);
-    padding:0;
-}
-
 /* Add Vacation button design when hovering over it: */
 .admin .add-vacation-button:hover{
     width: 120px;
@@ -38,6 +27,19 @@
     border-left: 2px solid gray;
     border-top: 2px solid gray;
     margin:3px;
+}
+
+/* Logout button */
+.admin .logout-button{
+    text-decoration: underline;
+    color:white;
+    padding:0;
+}
+
+/* Logout button hover */
+.admin .logout-button:hover{
+    color:rgb(89, 142, 255);
+    padding:0;
 }
 
 /* Modal - Delete-Button for deleting the vacation design: */

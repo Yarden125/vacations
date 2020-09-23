@@ -1,6 +1,5 @@
 const express = require("express");
 const vacationsLogic = require("../bll/vacations-logic");
-
 const router = express.Router();
 
 // router to get all vacations

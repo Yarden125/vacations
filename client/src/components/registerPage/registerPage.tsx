@@ -4,7 +4,6 @@ import { User } from "../../models/user";
 import { store } from "../../redux/store";
 import { Unsubscribe } from "redux";
 import { ActionType } from "../../redux/actionType";
-import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
 import dispatchActionService from "../../services/dispatchAction-service";
 import validationService from "../../services/validation-service";
@@ -21,9 +20,6 @@ interface RegisterPageState {
 }
 
 export class RegisterPage extends Component<any, RegisterPageState>{
-
-    // Get socket
-    public socket = socketService.getSocket();;
 
     // Function for subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
@@ -42,17 +38,18 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         };
     }
 
+    // Called immediately after a component is mounted
     public componentDidMount(): void {
         this.unsubscribeStore = store.subscribe(() =>
             this.setState({ user: store.getState().user }));
     }
 
-    // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
+    // The component will unsubscribe to updates from store immediately before the component is destroyed:
     public componentWillUnmount(): void {
         this.unsubscribeStore();
     }
 
-    // Getting the input first name from user and saving it in the state
+    // Getting the first name input from user and saving it in the state
     public setFirstName = (e: any): void => {
         const firstName = e.target.value;
         let errorMessage = validationService.validateText(firstName, "first name");
@@ -63,7 +60,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         this.setState({ newUser, errors });
     };
 
-    // Getting the input last name from user and saving it in the state
+    // Getting the last name input from user and saving it in the state
     public setLastName = (e: any): void => {
         const lastName = e.target.value;
         let errorMessage = validationService.validateText(lastName, "last name");
@@ -74,7 +71,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         this.setState({ newUser, errors });
     };
 
-    // Getting the input username from user and saving it in the state
+    // Getting the username input from user and saving it in the state
     public setUsername = (e: any): void => {
         const username = e.target.value;
         const newUser = { ...this.state.newUser };
@@ -89,7 +86,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         this.setState({ errors });
     };
 
-    // Getting the input password from user and saving it in the state
+    // Getting the password input from user and saving it in the state
     public setPassword = (e: any): void => {
         const password = e.target.value;
         let errorMessage = validationService.validateRegistration(password, "password", 4);
@@ -100,7 +97,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         this.setState({ newUser, errors });
     };
 
-    // Checks if form legal
+    // Checks if form is legal
     public isFormLegal(): boolean {
         return this.state.errors.firstNameError === "" &&
             this.state.errors.lastNameError === "" &&
@@ -177,6 +174,7 @@ export class RegisterPage extends Component<any, RegisterPageState>{
         apiService.addUser(JSON.stringify(this.state.newUser))
             .then(result => {
                 if (result) {
+                    // if was successfuly registered
                     dispatchActionService.dispatchAction(ActionType.GetOneUser, result);
                     this.props.history.push("/vacations/user/" + result.id);
                 }

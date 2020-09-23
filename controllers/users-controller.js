@@ -102,15 +102,4 @@ router.get("/loggedIn/:id", async (request, response) => {
     }
 });
 
-// router for logging out
-// router.patch("/logout", async (request, response)=>{
-//     try{
-//         const obj = request.body;
-//         await usersLogic.userLoggedInOrOut(obj);
-//     }
-//     catch(err){
-//         response.status(500).json(err.message); 
-//     }
-// });
-
 module.exports = router;

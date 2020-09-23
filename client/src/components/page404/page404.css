@@ -9,7 +9,7 @@
 }
 
 /* NavLink Home desgined as a button */
-.home-class-inactive, .logout-class-active {
+.home-class-inactive {
     color:white;
     margin-top: 20px;
     text-decoration: none;

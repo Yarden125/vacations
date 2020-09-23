@@ -17,7 +17,7 @@ async function isAdminLoggedIn(){
     return false;
 }
 
-// Check if username a password are correct for admin
+// Check if username and password are correct for admin
 async function isAdminExist(login){
     const sql = `SELECT COUNT(*) as count FROM Admin 
                 WHERE username COLLATE utf8_bin LIKE '${login.username}' 
@@ -29,7 +29,7 @@ async function isAdminExist(login){
     return false;
 }
 
-// logges in or out the admin
+// Logges the admin in or out
 async function adminLoggedInOrOut(obj){
     if(obj===true){
         obj=1;

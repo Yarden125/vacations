@@ -10,6 +10,7 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
     const newAppState = { ...oldAppState };
 
     switch (action.type) {
+
         // Action type- Reset the state
         case ActionType.ResetState:
             newAppState.vacations = [];
@@ -41,7 +42,16 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
             }
             break;
 
-        // Action type - Delete one Vacation with id:
+        // Action type - Update Vacation:
+        case ActionType.UpdateFullVacation:
+            for (let i = 0; i < newAppState.vacations.length; i++) {
+                if (newAppState.vacations[i].id === action.payload.id) {
+                    newAppState.vacations[i] = action.payload;
+                }
+            }
+            break;
+
+        // Action type - Delete one Vacation by id:
         case ActionType.DeleteVacation:
             let index2 = -1;
             for (let i = 0; i < newAppState.vacations.length; i++) {
@@ -54,23 +64,14 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
             }
             break;
 
-        // Action type - Update Vacation:
-        case ActionType.UpdateFullVacation:
-            for (let i = 0; i < newAppState.vacations.length; i++) {
-                if (newAppState.vacations[i].id === action.payload.id) {
-                    newAppState.vacations[i] = action.payload;
-                }
-            }
+        // Action type - Get All Followed Vacations:
+        case ActionType.GetAllFollowedVacations:
+            newAppState.followedVacations = action.payload;
             break;
 
         // Action type - Follow Vacation:
         case ActionType.AddFollowedVacation:
             newAppState.followedVacations.unshift(action.payload);
-            break;
-
-        // Action type - Get All Followed Vacations:
-        case ActionType.GetAllFollowedVacations:
-            newAppState.followedVacations = action.payload;
             break;
 
         // Action type - Unfollow Vacation:

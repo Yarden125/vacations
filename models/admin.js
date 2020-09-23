@@ -1,3 +1,4 @@
+// Admin model
 class Admin {
     constructor(id, username, password) {
         this.id = id;

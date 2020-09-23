@@ -84,14 +84,6 @@
     margin:auto;
 }
 
-/* .update-vacation .heading{
-    text-align: center;
-    color:white;
-    text-shadow: 1px 1px 3px rgb(85, 19, 57);
-    margin:2px;
-    margin:auto;
-} */
-
 /* Doesn't display the original type="file" design */
 .update-vacation [type="file"]{
    display: none;

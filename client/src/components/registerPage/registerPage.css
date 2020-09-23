@@ -6,20 +6,20 @@
     padding: 3px;
 }
 
-/* different design for table when screen size is under 768px */
+/* Different design for table when screen size is under 768px */
 @media screen and (max-width: 767px) {
     .register-page table,.register-page  td,.register-page  tr {
         margin-top: 15px;
     }
 }
 
-/* error notes design */
-small{
+/* Error notes design */
+/* small{
     width: 220px;
     text-align: left;
-}
+} */
 
-/* login text design */
+/* Login text design */
 .register-page .login-text{
     color:white;
     font-size: 16px;
@@ -28,7 +28,7 @@ small{
     margin:0;
 }
 
-/* input boxes design */
+/* Input boxes design */
 .register-page .register-class{
     display: block;
     margin:3px;
@@ -37,7 +37,7 @@ small{
     box-shadow: 1px 1px 3px rgb(119, 31, 82);
 }
 
-/* error notes design */
+/* Error notes design */
 .register-error-note{
     color:white;
     text-shadow: 1px 1px 3px rgb(85, 19, 57);
@@ -46,6 +46,7 @@ small{
     display: inline-block;
     margin:auto;
     text-align: left;
+    width: 220px;
 }
 
 /* login-button design */

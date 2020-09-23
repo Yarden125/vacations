@@ -1,13 +1,13 @@
 export enum ActionType {
+    ResetState,
     GetAllVacations,
     GetOneVacation,
     AddVacation,
-    DeleteVacation,
     UpdateFullVacation,
-    AddFollowedVacation,
+    DeleteVacation,
     GetAllFollowedVacations,
+    AddFollowedVacation,
     UnfollowVacation,
     GetOneUser,
-    GetAdmin,
-    ResetState
+    GetAdmin
 }

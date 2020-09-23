@@ -45,7 +45,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         };
     }
 
-    // Getting the specific requested vacation to update - it's one when the component builds itself
+    // Getting the specific requested vacation to update - Called immediately after a component is mounted
     public componentDidMount(): void {
         const id = +this.props.match.params.vacationID;
         apiService.getVacation(id)
@@ -59,7 +59,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.getDate();
     }
 
-    // Getting the input destination from the admin and saving it in the state
+    // Getting the destination input from the admin and saving it in the state
     public setDestination = (e: any): void => {
         const destination = e.target.value;
         let errorMessage = validationService.validateInput(destination, "destination");
@@ -70,7 +70,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.setState({ vacationToUpdate, errors });
     };
 
-    // Getting the input image from the admin and saving it in the state
+    // Getting the image input from the admin and saving it in the state
     public setImage = (e: any): void => {
         const images = e.target.files[0];
         if (e.target.files[0] !== undefined) {
@@ -79,7 +79,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         }
     };
 
-    // Getting the input description from the admin and saving it in the state
+    // Getting the description input from the admin and saving it in the state
     public setDescription = (e: any): void => {
         const description = e.target.value;
         let errorMessage = validationService.validateInput(description, "description");
@@ -90,7 +90,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.setState({ vacationToUpdate, errors });
     };
 
-    // Getting the input price from the admin and saving it in the state
+    // Getting the price input from the admin and saving it in the state
     public setPrice = (e: any): void => {
         const price = +e.target.value;
         let errorMessage = validationService.validatePrice(price);
@@ -101,7 +101,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.setState({ vacationToUpdate, errors });
     };
 
-    // Getting the input start date from the admin and saving it in the state
+    // Getting the start date input from the admin and saving it in the state
     public setStart = (e: any): void => {
         const start = e.target.value;
         let errorMessage = validationService.validateInput(start, "start date");
@@ -112,7 +112,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.setState({ vacationToUpdate, errors });
     };
 
-    // Getting the input end date from the admin and saving it in the state
+    // Getting the end date input from the admin and saving it in the state
     public setEnd = (e: any): void => {
         const end = e.target.value;
         let errorMessage = validationService.validateInput(end, "end date");
@@ -129,7 +129,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         this.setState({ currentDate });
     }
 
-    // Checking if form legal:
+    // Checking if form is legal:
     public isFormLegal(): boolean {
         return this.state.errors.errorDestination === "" &&
             this.state.errors.errorDescription === "" &&
@@ -218,7 +218,7 @@ export class UpdateVacation extends Component<any, UpdateVacationState>{
         );
     }
 
-    // Save changes and update vacation
+    // Save changes, update vacation and goes back to admin page
     public saveChanges = (): void => {
         this.socket.emit("admin-is-logging-out", true);
         const fd = new FormData();

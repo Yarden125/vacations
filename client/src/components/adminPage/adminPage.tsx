@@ -45,14 +45,14 @@ export class AdminPage extends Component<any, AdminPageState>{
         };
     }
 
-    // When the component builds itself it will first check if Admin is logged in:
+    // Called immediately after a component is being mounted:
     public componentDidMount(): void {
         this.unsubscribeStore = store.subscribe(() =>
             this.setState({ vacations: store.getState().vacations, admin: store.getState().admin }));
         this.isAdminLoggedIn();
     }
 
-    // checks if Admin is logged in:
+    // Checks if Admin is logged in:
     public isAdminLoggedIn(): void {
         apiService.isTheAdminLoggedIn()
             .then(result => {
@@ -69,7 +69,7 @@ export class AdminPage extends Component<any, AdminPageState>{
             .catch(err => alert(err.message));
     }
 
-    // get admin from API
+    // Get admin
     public getAdmin(): void {
         if (store.getState().admin.length === 0) {
             apiService.getTheAdmin()
@@ -101,7 +101,7 @@ export class AdminPage extends Component<any, AdminPageState>{
         });
     }
 
-    // get all vacations from API
+    // Get all vacations
     public getAllVacations(): void {
         if (store.getState().vacations.length === 0) {
             apiService.getVacations()
@@ -112,11 +112,12 @@ export class AdminPage extends Component<any, AdminPageState>{
         }
     }
 
-    // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
+    // The component will unsubscribe to updates from store immediately before the component is destroyed:
     public componentWillUnmount(): void {
         this.unsubscribeStore();
     }
 
+    // Logout and go back to login page 
     public logout = (): void => {
         this.socket.emit("admin-is-logging-out", false);
         dispatchActionService.dispatchAction(ActionType.ResetState, null);

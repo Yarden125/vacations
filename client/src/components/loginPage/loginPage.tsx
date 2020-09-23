@@ -6,7 +6,6 @@ import { Unsubscribe } from "redux";
 import { store } from "../../redux/store";
 import { ActionType } from "../../redux/actionType";
 import { User } from "../../models/user";
-import socketService from "../../services/socket-service";
 import apiService from "../../services/api-service";
 import dispatchActionService from "../../services/dispatchAction-service"
 import validationService from "../../services/validation-service";
@@ -24,9 +23,6 @@ interface LoginPageState {
 }
 
 export class LoginPage extends Component<any, LoginPageState>{
-
-    // Get socket
-    private socket = socketService.getSocket();
 
     // function for subscribing to changes in the store
     public unsubscribeStore: Unsubscribe;
@@ -46,17 +42,18 @@ export class LoginPage extends Component<any, LoginPageState>{
         };
     }
 
+    // Called immediately after a component is mounted
     public componentDidMount():void{
         this.unsubscribeStore = store.subscribe(() =>
             this.setState({ admin: store.getState().admin, user: store.getState().user }));
     }
 
-    // The component will unsubscribe to updates from store a moment before the component will end it's life cycle:
+    // The component will unsubscribe to updates from store immediately before the component is destroyed:
     public componentWillUnmount(): void {
         this.unsubscribeStore();
     }
 
-    // set Input username date from user/admin and saves it in the state
+    // Set username input from user/admin and saves it to the state
     public setUsername = (e: any): void => {
         const currentUsername = e.target.value;
         let errorMessage = validationService.validateInput(currentUsername, "username");
@@ -67,7 +64,7 @@ export class LoginPage extends Component<any, LoginPageState>{
         this.setState({ login, errors });
     };
 
-    // set Input password date from user/admin and saves it in the state
+    // set password input from user/admin and saves it to the state
     public setPassword = (e: any): void => {
         const currentPassword = e.target.value;
         let errorMessage = validationService.validateInput(currentPassword, "password");
@@ -101,7 +98,7 @@ export class LoginPage extends Component<any, LoginPageState>{
         }
     };
 
-    // If Admin was checked in the checkbox - get Admin API according to login details
+    // If Admin was checked in the checkbox - get Admin according to login details
     public logInAdmin(): void {
         apiService.loginAdmin(JSON.stringify(this.state.login))
             .then(admin => {
@@ -118,7 +115,7 @@ export class LoginPage extends Component<any, LoginPageState>{
             .catch(err => alert(err.message));
     }
 
-    // If Admin was not checked in the checkbox - get User API according to login details 
+    // If Admin was not checked in the checkbox - get User according to login details 
     public logInUser(): void {
         apiService.loginUser(JSON.stringify(this.state.login))
             .then(result => {
@@ -129,7 +126,7 @@ export class LoginPage extends Component<any, LoginPageState>{
                     this.props.history.push("/vacations/user/" + userId);
                 }
                 else {
-                    // If details are incorrect - would stay in the login page:
+                    // If details are incorrect - would stay on the login page:
                     this.dealWithIncorrectLogin();
                 }
             })

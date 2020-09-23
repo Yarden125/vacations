@@ -17,32 +17,32 @@
     background-size: cover;
 }
 
-/* different row divition from screen size of 768px to 991px */
+/* Different row division from screen size of 768px to 991px */
 @media screen and (min-width: 768px) {
     .layout {
         grid-template-rows: 15% 85%;
     }
 }
 
-/* different row divition from screen size of 992px */
+/* Different row division from screen size of 992px */
 @media screen and (min-width: 992px) {
     .layout {
         grid-template-rows: 20% 80%;
     }
 }
 
-/* header divition design */
+/* Header division design */
 .layout > header{
     grid-column: span 12;
 }
 
-/* main divition design */
+/* Main division design */
 .layout > main{
     grid-column: span 12;
     
 }
 
-/* logout-wrapper div design */
+/* Logout-wrapper div design */
 .layout .logout-wrapper{
     position: relative;
 }
@@ -72,7 +72,7 @@
     height:20px;
 }
 
-/* different design for Scrollbar for the website when screen size is lower than 768px */
+/* Different design for Scrollbar for the website when screen size is lower than 768px */
 @media screen and (max-width: 767px) {
     /* scrollbar design */
     .layout::-webkit-scrollbar-track {

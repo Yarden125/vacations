@@ -10,11 +10,14 @@ import { UpdateVacation } from "../updateVacation/updateVacation";
 import { Page404 } from "../page404/page404";
 import { Header } from "../header/header";
 import socketService from "../../services/socket-service";
+import { Footer } from "../footer/footer";
 
 export class Layout extends Component {
-    public socket = socketService.initialize();;
 
-    // Disconnect from socket a moment before the component will end it's life cycle:
+    // Initialize socket
+    public socket = socketService.initialize();
+
+    // Disconnect from socket immediately before the component is destroyed:
     public componentWillUnmount(): void {
         socketService.disconnect();
     }
@@ -38,6 +41,7 @@ export class Layout extends Component {
                             <Redirect from="/" to="/login" exact />
                             <Route component={Page404} />
                         </Switch>
+                        <Footer />
                     </main>
                 </BrowserRouter>
             </div>

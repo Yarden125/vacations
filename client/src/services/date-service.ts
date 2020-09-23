@@ -1,4 +1,5 @@
 class DateService{
+    // Customized a given date's format
     public formatDate(date:string):string{
         let today = new Date(date);
         let day = ("0" + today.getDate()).slice(-2);
@@ -7,6 +8,7 @@ class DateService{
         return day + "/" + month + "/" + year;
     }
 
+    // Get the current date 
     public getTheDate():string{
         let today = new Date();
         let day = ("0" + today.getDate()).slice(-2);

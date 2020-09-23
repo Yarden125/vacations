@@ -6,21 +6,21 @@
     padding: 3px;
 }
 
-/* different design for the table when screen is under 768px */
+/* Different design for the table when screen is under 768px */
 @media screen and (max-width: 767px) {
     .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
         margin: auto; 
     }
 }
 
-/* different design for the table when screen is over 767px and under 991px */
+/* Different design for the table when screen is over 767px and under 991px */
 @media screen and (min-width: 768px) {
     .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
         margin: auto 200px; 
     }
 }
 
-/* different design for the table when screen is over 991px */
+/* Different design for the table when screen is over 991px */
 @media screen and (min-width: 992px) {
     .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
         margin: auto 500px; 
@@ -79,7 +79,6 @@
     color:white;
     text-shadow: 1px 1px 3px rgb(85, 19, 57);
     border-radius: 3px;
-    
 }
 
 /* register text design */
@@ -110,6 +109,7 @@
     margin:2px;
     display: block;
     margin:auto;
+    text-align: left;
 }
 
 /* login error note design */

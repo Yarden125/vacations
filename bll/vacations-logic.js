@@ -7,7 +7,7 @@ async function getAllVacations() {
     return await dal.execute(sql);
 }
 
-// Get one vacation with id:
+// Get one vacation by vacation's id:
 async function getOneVacation(id) {
     const sql = `SELECT VacationID as id, description, destination, image, start, end, price FROM Vacations 
                 WHERE vacationID=${id}`;
@@ -34,7 +34,7 @@ async function updateFullVacation(vacation, image) {
     return vacation.id;
 }
 
-// Delete vacation with id
+// Delete vacation by vacation's id
 async function deleteVacation(vacationID) {
     const sqlfollowed = `DELETE FROM Followed WHERE vacationID=${vacationID}`;
     const sql = `DELETE FROM Vacations WHERE vacationID=${vacationID}`;

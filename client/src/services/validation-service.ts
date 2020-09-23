@@ -1,6 +1,7 @@
+// Validation Service
 class ValidationService{
 
-    // validate the input
+    // Validate an input
     public validateInput(input: any, text:string):string{
         let errorMessage = "";
         if (input === "") {
@@ -9,7 +10,7 @@ class ValidationService{
         return errorMessage;
     }
 
-    // validate the price
+    // Validate the price
     public validatePrice(price: number):string{
         let errorMessage = "";
         if (price === null) {
@@ -21,7 +22,7 @@ class ValidationService{
         return errorMessage;
     }
 
-    // validate text and apostrophe
+    // Validate text and apostrophe
     public validateText(name:string, text: string):string{
         let errorMessage = "";
         if (name === "") {
@@ -33,7 +34,7 @@ class ValidationService{
         return errorMessage;
     }
 
-    // validate input for registration
+    // Validate input for registration
     public validateRegistration(input:string, text: string, lengthNum: number):string{
         let errorMessage = "";
         if (input === "") {

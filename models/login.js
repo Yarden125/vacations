@@ -1,3 +1,4 @@
+// Login model
 class Login{
     constructor(loginID,username, password){
         this.loginID = loginID;

@@ -1,6 +1,5 @@
 const express = require("express");
 const adminLogic = require("../bll/admin-logic");
-const { request, response } = require("express");
 const router = express.Router();
 
 // router to get admin's details:
@@ -14,7 +13,7 @@ router.get("/", async (request,response)=>{
     }
 });
 
-// router that passes the data from admin to check if username and password are valid for the Admin
+// router check if username and password are valid for the Admin and login if they are
 router.post("/", async (request,response)=>{
     try{
         const login = request.body;
@@ -44,15 +43,5 @@ router.get("/loggedIn", async (request,response)=>{
         response.status(500).json(err.message); 
     }
 });
-
-// router for logging out
-// router.patch("/logout", async (request, response)=>{
-//     try{
-//         await adminLogic.adminLoggedInOrOut(false);
-//     }
-//     catch(err){
-//         response.status(500).json(err.message); 
-//     }
-// });
 
 module.exports = router;
