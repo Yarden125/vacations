@@ -8,5 +8,5 @@ export class AppState {
     public vacations: Vacation[] = [];
     public user: User = null;
     public followedVacations: FollowedVacation[] = [];
-    public admin: Admin[] = [];
+    public admin: Admin = null;
 }

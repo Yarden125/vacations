@@ -13,7 +13,7 @@ import validationService from "../../services/validation-service";
 interface LoginPageState {
     login: Login;
     adminCheckBox: boolean;
-    admin: Admin[];
+    admin: Admin;
     user: User;
     errors: {
         usernameError: string,
@@ -32,7 +32,7 @@ export class LoginPage extends Component<any, LoginPageState>{
         this.state = {
             login: new Login(),
             adminCheckBox: false,
-            admin: [],
+            admin: null,
             user: null,
             errors: {
                 usernameError: "*",

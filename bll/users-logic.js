@@ -1,4 +1,5 @@
 const dal = require("../dal/dal");
+const hash = require("./hash");
 
 // Get username from Users table by the user's id
 async function getUserDetailsByID(id) {
@@ -10,6 +11,7 @@ async function getUserDetailsByID(id) {
 
 // Add user:
 async function addUser(user) {
+    user.password = hash(user.password);
     const sql = `INSERT INTO Users(firstName, lastName, username, password)
                 VALUES ('${user.firstName}','${user.lastName}','${user.username}','${user.password}')`;
     const info = await dal.execute(sql);
@@ -26,6 +28,7 @@ async function isUsernameExists(username) {
 
 // Checks if username and password are valid:
 async function checkLogin(username, password) {
+    password = hash(password);
     const sql = `SELECT COUNT(*) as count FROM Users 
                 WHERE username COLLATE utf8_bin LIKE '${username}' 
                 AND password COLLATE utf8_bin LIKE'${password}'`;
@@ -35,6 +38,7 @@ async function checkLogin(username, password) {
 
 // Get the id of a specific user:
 async function getUserDetails(username, password) {
+    password = hash(password);
     const sql = `SELECT userID as id, username FROM Users WHERE username='${username}' AND password='${password}'`;
     const userDetails = await dal.execute(sql);
     return userDetails;

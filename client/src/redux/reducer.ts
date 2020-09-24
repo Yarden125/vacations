@@ -16,7 +16,7 @@ export function reducer(oldAppState: AppState | undefined, action: AnyAction) {
             newAppState.vacations = [];
             newAppState.user = null;
             newAppState.followedVacations = [];
-            newAppState.admin = [];
+            newAppState.admin = null;
             break;
 
         // Action type - Get All Vacations:

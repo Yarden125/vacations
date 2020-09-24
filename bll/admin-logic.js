@@ -1,4 +1,5 @@
 const dal = require("../dal/dal");
+const hash = require("./hash");
 
 // Get username from admin
 async function getAdminDetails(){
@@ -19,6 +20,7 @@ async function isAdminLoggedIn(){
 
 // Check if username and password are correct for admin
 async function isAdminExist(login){
+    login.password = hash(login.password);
     const sql = `SELECT COUNT(*) as count FROM Admin 
                 WHERE username COLLATE utf8_bin LIKE '${login.username}' 
                 AND password COLLATE utf8_bin LIKE'${login.password}'`;
@@ -47,5 +49,5 @@ module.exports = {
     getAdminDetails,
     isAdminExist,
     adminLoggedInOrOut,
-    isAdminLoggedIn,
+    isAdminLoggedIn
 };

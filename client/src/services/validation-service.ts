@@ -42,7 +42,6 @@ class ValidationService{
         }
         else if(input.length < lengthNum) {
             let upperCase = text.charAt(0).toUpperCase()+text.slice(1);
-            console.log("upperCase: ",upperCase);
             errorMessage = `${upperCase} must be at least ${lengthNum} digits`
         }
         if (input.includes("'")) {

@@ -56,7 +56,6 @@ router.post("/register", async (request, response) => {
         }
         if (!usernameExist) {
             const addedUser = await usersLogic.addUser(user);
-            console.log("addedUser : ", addedUser);
             await usersLogic.userLoggedInOrOut({ loggedIn: true, userId: addedUser.id });
             response.status(201).json(addedUser);
         }

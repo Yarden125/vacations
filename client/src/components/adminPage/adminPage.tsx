@@ -16,7 +16,7 @@ interface AdminPageState {
     vacations: Vacation[];
     vacation: Vacation;
     adminUsername: string;
-    admin: Admin[];
+    admin: Admin;
     modalIsOpen: boolean;
     currentVacationID: number;
     currentDestination: string;
@@ -71,7 +71,7 @@ export class AdminPage extends Component<any, AdminPageState>{
 
     // Get admin
     public getAdmin(): void {
-        if (store.getState().admin.length === 0) {
+        if (store.getState().admin === null) {
             apiService.getTheAdmin()
                 .then(admin => {
                     dispatchActionService.dispatchAction(ActionType.GetAdmin, admin);
