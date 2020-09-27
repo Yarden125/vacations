@@ -33,62 +33,64 @@ class ApiService{
 
     // Is the admin logged in
     async isTheAdminLoggedIn(){
-        return this.preformeGet("http://localhost:3001/api/admin/loggedIn");
+        // return this.preformeGet("http://localhost:3001/api/admin/loggedIn");
+        return this.preformeGet("/api/admin/loggedIn");
     }
 
     // Is the user logged in
     async isTheUserLoggedIn(id:number){
-        return this.preformeGet(`http://localhost:3001/api/users/loggedIn/${id}`);
+        return this.preformeGet(`/api/users/loggedIn/${id}`);
     }
 
     // Get admin
     async getTheAdmin(){
-        return this.preformeGet("http://localhost:3001/api/admin");
+        return this.preformeGet("/api/admin");
     }
 
     // Get user by id
     async getTheUser(id:number){
-        return this.preformeGet(`http://localhost:3001/api/users/userDetails/${id}`);
+        return this.preformeGet(`/api/users/userDetails/${id}`);
     }
 
     // Get all vacations
     async getVacations(){
-        return this.preformeGet("http://localhost:3001/api/vacations");
+        return this.preformeGet("/api/vacations");
     }
 
     // Get vacation by id
     async getVacation(id:number){
-        return this.preformeGet(`http://localhost:3001/api/vacations/${id}`);
+        return this.preformeGet(`/api/vacations/${id}`);
     }
 
     // Get all Followed vacation by user id
     async getFollowedVacation(id:number){
-        return this.preformeGet(`http://localhost:3001/api/followed/myVacations/${id}`);
+        return this.preformeGet(`/api/followed/myVacations/${id}`);
     }
 
     // Login the user
     async loginUser(body:any){
-        return this.preformFetchPost("http://localhost:3001/api/users/login", body);
+        return this.preformFetchPost("/api/users/login", body);
     }
 
     // Log in the admin
     async loginAdmin(body:any){
-        return this.preformFetchPost("http://localhost:3001/api/admin", body);
+        return this.preformFetchPost("/api/admin", body);
     }
 
     // Add a new user when registering 
     async addUser(body:any){
-        return this.preformFetchPost("http://localhost:3001/api/users/register", body);
+        return this.preformFetchPost("/api/users/register", body);
     }
 
     // Add a new vacation
     async addVacation(fd:FormData){
-        return this.preformAxiosPost("http://localhost:3001/api/images/upload-image", fd)
+        return this.preformAxiosPost("/api/images/upload-image", fd)
     }
 
     // Update Vacation
     async updateVacation(fd:FormData){
-        return this.preformAxiosPut("http://localhost:3001/api/images/update-image", fd)
+        return this.preformAxiosPut("/api/images/update-image", fd)
+        // return this.preformAxiosPut("http://localhost:3001/api/images/update-image", fd)
     }
 }
 
