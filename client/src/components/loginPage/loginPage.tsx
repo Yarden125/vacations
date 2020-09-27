@@ -163,12 +163,13 @@ export class LoginPage extends Component<any, LoginPageState>{
         return (
             <div className="login-page">
                 <form>
+                    {process.env.NODE_ENV ==="production"? " ":
                     <div className="admin-checkbox-div">
                         <input type="checkbox" checked={this.state.adminCheckBox} onChange={this.isAdmin} className="checkbox-admin" />
                         <label className="admin-text">Admin</label>
                         <br />
                         <small className="admin-text">Admin? Please check the box first and then login</small>
-                    </div>
+                    </div>}
                     <table>
                         <tbody>
                             <tr>
