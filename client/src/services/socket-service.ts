@@ -6,7 +6,8 @@ class SocketService {
 
   // Initialize the socket
   public initialize() {
-    this.socket = socketIOClient("http://localhost:3001");
+    this.socket = socketIOClient("/");
+    // this.socket = socketIOClient("http://localhost:3001");
   }
 
   // Disconnect the socket
