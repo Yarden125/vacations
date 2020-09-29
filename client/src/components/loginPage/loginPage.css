@@ -1,31 +1,31 @@
 /* table design */
 .login-page table,.login-page  tbody,.login-page  tr,.login-page  td{
     text-align: center;
-    margin: auto 500px;
+    margin: auto;
     margin-top: 5px;
     padding: 3px;
 }
 
 /* Different design for the table when screen is under 768px */
-@media screen and (max-width: 767px) {
+/* @media screen and (max-width: 767px) {
     .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
         margin: auto; 
     }
-}
+} */
 
 /* Different design for the table when screen is over 767px and under 991px */
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
     .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
-        margin: auto 200px; 
+        margin: auto; 
     }
-}
+} */
 
 /* Different design for the table when screen is over 991px */
-@media screen and (min-width: 992px) {
+/* @media screen and (min-width: 992px) {
     .login-page table,.login-page  tbody,.login-page  tr,.login-page  td {
-        margin: auto 500px; 
+        margin: auto; 
     }
-}
+} */
 
 /* admin checkbox div design */
 .login-page .admin-checkbox-div{

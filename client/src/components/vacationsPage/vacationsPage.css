@@ -186,7 +186,7 @@
 
 /* Customized font for welcome-admin */
 @font-face{
-    src: url("/assets/fonts/Sunday\ Holiday.ttf");
+    src: url("/assets/fonts/Sunday_Holiday.ttf");
     font-family: "welcome-admin-title";
 }
 
