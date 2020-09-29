@@ -6,7 +6,7 @@
     margin: auto;
     text-align: center;
     display: grid;
-    grid-template-rows: 22% 80% ;
+    grid-template-rows: 22% 78%;
     grid-template-columns: repeat(12, 1fr);
     overflow-y: auto;
     overflow-x: hidden;
@@ -17,20 +17,6 @@
     background-size: cover;
 }
 
-/* Different row division from screen size of 768px to 991px */
-/* @media screen and (min-width: 768px) {
-    .layout {
-        grid-template-rows: 15% 85%;
-    }
-} */
-
-/* Different row division from screen size of 992px */
-/* @media screen and (min-width: 992px) {
-    .layout {
-        grid-template-rows: 20% 80%;
-    }
-} */
-
 /* Header division design */
 .layout > header{
     grid-column: span 12;
@@ -39,7 +25,6 @@
 /* Main division design */
 .layout > main{
     grid-column: span 12;
-    
 }
 
 /* Logout-wrapper div design */
