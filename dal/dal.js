@@ -1,16 +1,17 @@
 const mysql = require("mysql");
-const HOST = process.env.DB_HOST || "localhost";
-const USERNAME = process.env.DB_USERNAME || "root";
-const PASSWORD = process.env.DB_PASSWORD || "";
-const DATABASE = process.env.DATABASE_NAME || "VacationsDB";
+// const HOST = process.env.DB_HOST || "localhost";
+// const USERNAME = process.env.DB_USERNAME || "root";
+// const PASSWORD = process.env.DB_PASSWORD || "";
+// const DATABASE = process.env.DATABASE_NAME || "VacationsDB";
+
 
 // Create a communication line to MySQL Database: 
 const connection = mysql.createConnection({
-    host: HOST,
-    user: USERNAME,
-    password: PASSWORD,
-    database: DATABASE
-});
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "VacationsDB"
+}) || process.env.DATABASE_URL;
 
 // Connecting to the database: 
 connection.connect(err => {
