@@ -6,7 +6,7 @@ const mysql = require("mysql");
 
 
 // Create a communication line to MySQL Database: 
-const connection = mysql.createConnection({
+const connection = process.env.DATABASE_URL || mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
