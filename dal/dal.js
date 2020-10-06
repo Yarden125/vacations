@@ -1,7 +1,7 @@
 const mysql = require("mysql");
-const HOST = process.env.HOST || "localhost";
-const USERNAME = process.env.USERNAME || "root";
-const PASSWORD = process.env.PASSWORD || "";
+const HOST = process.env.DB_HOST || "localhost";
+const USERNAME = process.env.DB_USERNAME || "root";
+const PASSWORD = process.env.DB_PASSWORD || "";
 const DATABASE = process.env.DATABASE_NAME || "VacationsDB";
 
 // Create a communication line to MySQL Database: 
