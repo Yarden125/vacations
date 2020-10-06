@@ -6,12 +6,12 @@ const mysql = require("mysql");
 
 
 // Create a communication line to MySQL Database: 
-const connection = mysql.createConnection({
+const connection = mysql.createConnection(process.env.DATABASE_URL ||{
     host: "localhost",
     user: "root",
     password: "",
     database: "VacationsDB"
-}) || process.env.DATABASE_URL;
+});
 
 // Connecting to the database: 
 connection.connect(err => {
