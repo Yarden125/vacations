@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
     user: "root",
     password: "",
     database: "VacationsDB"
-}) || process.env.DATABASE_URL;
+});
 
 // Connecting to the database: 
 connection.connect(err => {
