@@ -1,11 +1,15 @@
 const mysql = require("mysql");
+const HOST = process.env.HOST || "localhost";
+const USERNAME = process.env.USERNAME || "root";
+const PASSWORD = process.env.PASSWORD || "";
+const DATABASE = process.env.DATABASE_NAME || "VacationsDB";
 
 // Create a communication line to MySQL Database: 
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "VacationsDB"
+    host: HOST,
+    user: USERNAME,
+    password: PASSWORD,
+    database: DATABASE
 });
 
 // Connecting to the database: 
