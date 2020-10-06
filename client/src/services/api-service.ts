@@ -33,7 +33,6 @@ class ApiService{
 
     // Is the admin logged in
     async isTheAdminLoggedIn(){
-        // return this.preformeGet("http://localhost:3001/api/admin/loggedIn");
         return this.preformeGet("/api/admin/loggedIn");
     }
 
@@ -90,7 +89,6 @@ class ApiService{
     // Update Vacation
     async updateVacation(fd:FormData){
         return this.preformAxiosPut("/api/images/update-image", fd)
-        // return this.preformAxiosPut("http://localhost:3001/api/images/update-image", fd)
     }
 }
 
