@@ -7,7 +7,10 @@ const remoteDB = process.env.DATABASE_URL;
 
 
 // Create a communication line to MySQL Database: 
-if(process.env.NODE_ENV != "production"){
+if(process.env.NODE_ENV==="production"){
+    remoteDB;
+}
+// if(process.env.NODE_ENV != "production"){
     const connection = mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -23,9 +26,9 @@ if(process.env.NODE_ENV != "production"){
         }
         console.log("We're connected to MySQL");
     });
-}else{
-    process.env.DATABASE_URL;
-}
+// }else{
+    // process.env.DATABASE_URL;
+// }
 
 // Execute a command (select / insert / update / delete):
 function execute(sql) {
