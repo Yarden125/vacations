@@ -1,16 +1,6 @@
 const mysql = require("mysql");
-// const HOST = "localhost" || process.env.DB_HOST;
-// const USERNAME = "root" || process.env.DB_USERNAME;
-// const PASSWORD = "" || process.env.DB_PASSWORD;
-// const DATABASE = "VacationsDB" || process.env.DATABASE_NAME;
-const remoteDB = process.env.DATABASE_URL;
-
 
 // Create a communication line to MySQL Database: 
-if(process.env.NODE_ENV==="production"){
-    remoteDB;
-}
-// if(process.env.NODE_ENV != "production"){
     const connection = mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -26,9 +16,6 @@ if(process.env.NODE_ENV==="production"){
         }
         console.log("We're connected to MySQL");
     });
-// }else{
-    // process.env.DATABASE_URL;
-// }
 
 // Execute a command (select / insert / update / delete):
 function execute(sql) {

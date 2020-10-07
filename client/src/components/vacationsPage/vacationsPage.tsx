@@ -207,7 +207,7 @@ export class Vacations extends Component<any, VacationsState>{
                     </label>
                     <div className="v-destination-p">{v.destination}</div>
                     <div className="v-image">
-                        <img src={`http://localhost:3001/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
+                        <img src={`http://localhost:3002/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
                     </div>
                     <div className="v-description">
                         <p className="vacation-details-class-description">{v.description}</p>

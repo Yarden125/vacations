@@ -165,7 +165,7 @@ export class AdminPage extends Component<any, AdminPageState>{
                                 <p className="v-destination-p">{v.destination}</p>
                             </div>
                             <div className="v-image">
-                                <img src={`http://localhost:3001/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
+                                <img src={`http://localhost:3002/assets/uploads/${v.image}`} alt="vacation" className="vacation-image" />
                             </div>
                             <div className="v-description">
                                 <p className="vacation-details-class-description">{v.description}</p>

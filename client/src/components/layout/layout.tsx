@@ -15,12 +15,12 @@ import { Footer } from "../footer/footer";
 export class Layout extends Component {
 
     // Initialize socket
-    // public socket = socketService.initialize();
+    public socket = socketService.initialize();
 
     // Disconnect from socket immediately before the component is destroyed:
-    // public componentWillUnmount(): void {
-    //     socketService.disconnect();
-    // }
+    public componentWillUnmount(): void {
+        socketService.disconnect();
+    }
 
     // The component's HTML that is being rendered:
     public render(): JSX.Element {
