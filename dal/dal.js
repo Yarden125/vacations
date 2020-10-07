@@ -3,24 +3,29 @@ const mysql = require("mysql");
 // const USERNAME = "root" || process.env.DB_USERNAME;
 // const PASSWORD = "" || process.env.DB_PASSWORD;
 // const DATABASE = "VacationsDB" || process.env.DATABASE_NAME;
+const remoteDB = process.env.DATABASE_URL;
 
 
 // Create a communication line to MySQL Database: 
-const connection = mysql.createConnection(process.env.DATABASE_URL ||{
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "VacationsDB"
-});
+if(process.env.NODE_ENV != "production"){
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "VacationsDB"
+    });
 
-// Connecting to the database: 
-connection.connect(err => {
-    if (err) {
-        console.log(err);
-        return;
-    }
-    console.log("We're connected to MySQL");
-});
+    // Connecting to the database: 
+    connection.connect(err => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log("We're connected to MySQL");
+    });
+}else{
+    process.env.DATABASE_URL;
+}
 
 // Execute a command (select / insert / update / delete):
 function execute(sql) {
