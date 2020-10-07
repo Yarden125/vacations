@@ -10,6 +10,7 @@ class ApiService{
 
     // Fetch - Post method
     private async preformFetchPost(url:string, bodyData:any){
+        console.log(url);
         const response = await fetch(url, {
             method: "POST",
             headers: {
